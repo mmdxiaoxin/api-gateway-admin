@@ -9,13 +9,13 @@
 
 ## 代理规则
 
-### 1. `/center` 端点
-- **前端请求**: `/center/api/v1/...`
+### 1. `/api/center` 端点
+- **前端请求**: `/api/center/api/v1/...`
 - **代理到**: `http://localhost:8080/api/v1/...`
 - **说明**: 所有网关中心（Java 后端）的 API 请求
 
-### 2. `/admin` 端点
-- **前端请求**: `/admin/...`
+### 2. `/api/admin` 端点
+- **前端请求**: `/api/admin/...`
 - **代理到**: `http://localhost:3000/api/...`
 - **说明**: Next.js 自己的 API 路由（不走代理）
 
@@ -118,27 +118,27 @@ docker-compose up -d
 
 前端代码已经配置好，使用相对路径：
 
-- `PORT_GATEWAY_CENTER = '/center'` - 网关中心 API
-- `PORT_GATEWAY_ADMIN = '/admin'` - 管理后台 API
+- `PORT_GATEWAY_CENTER = '/api/center'` - 网关中心 API
+- `PORT_GATEWAY_ADMIN = '/api/admin'` - 管理后台 API
 
 所有请求会自动通过 Nginx 代理到对应的后端服务。
 
 ## 验证配置
 
-### 1. 测试 `/center` 代理
+### 1. 测试 `/api/center` 代理
 
 ```bash
 # 测试网关中心 API
-curl http://localhost/center/api/v1/config/gateway-servers
+curl http://localhost/api/center/api/v1/config/gateway-servers
 ```
 
 应该返回 Java 后端（localhost:8080）的响应。
 
-### 2. 测试 `/admin` 代理
+### 2. 测试 `/api/admin` 代理
 
 ```bash
 # 测试管理后台 API
-curl http://localhost/admin/auth/login
+curl http://localhost/api/admin/auth/login
 ```
 
 应该返回 Next.js 后端（localhost:3000）的响应。
