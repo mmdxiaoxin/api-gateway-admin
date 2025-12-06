@@ -99,12 +99,43 @@ export async function get<T>(
 
 /**
  * POST 请求
+ * 如果 config.params 存在且 data 为 null，将参数转换为 form-urlencoded 格式
  */
 export async function post<T>(
 	url: string,
 	data?: unknown,
 	config?: AxiosRequestConfig
 ): Promise<ApiResponse<T>> {
+	// 如果 data 为 null/undefined 且 config.params 存在，转换为 form-urlencoded
+	if ((data === null || data === undefined) && config?.params) {
+		const params = config.params;
+		const formData = new URLSearchParams();
+		
+		// 将 params 对象转换为 URLSearchParams
+		Object.entries(params).forEach(([key, value]) => {
+			if (value !== null && value !== undefined) {
+				formData.append(key, String(value));
+			}
+		});
+		
+		// 使用 form-urlencoded 格式
+		const newConfig: AxiosRequestConfig = {
+			...config,
+			headers: {
+				...config.headers,
+				"Content-Type": "application/x-www-form-urlencoded",
+			},
+			params: undefined, // 移除 params，因为已经放在 body 中了
+		};
+		
+		const response = await axiosInstance.post<ApiResponse<T>>(
+			url,
+			formData.toString(),
+			newConfig
+		);
+		return response.data;
+	}
+	
 	const response = await axiosInstance.post<ApiResponse<T>>(url, data, config);
 	return response.data;
 }

@@ -173,11 +173,14 @@ export async function copyNginxConfig(): Promise<void> {
 }
 
 // 更新Nginx配置
+// 注意：当前后端接口不接受参数，需要后端修改为接受 @RequestBody NginxConfig
 export async function updateNginxConfig(config: {
 	upstreams: Array<{ name: string; loadBalance: string; servers: string[] }>;
 	locations: Array<{ path: string; proxyPass: string }>;
-}): Promise<void> {
-	await put("/api/v1/load-balancing/nginx-config", config);
+}): Promise<ApiResponse<boolean>> {
+	// 暂时不传递参数，因为后端接口不接受参数
+	// TODO: 需要后端修改接口接受 @RequestBody NginxConfig 参数
+	return put<boolean>("/api/v1/load-balancing/nginx-config", config);
 }
 
 /**

@@ -83,13 +83,17 @@ async function proxyRequest(
 		});
 
 		// 处理请求体（POST、PUT 等）
-		// 注意：Java 后端使用 @RequestParam，参数在 URL 中，不需要请求体
 		if (["POST", "PUT", "PATCH"].includes(request.method)) {
 			try {
 				const body = await request.text();
 				// 只有当有请求体且不是空字符串时才添加
 				if (body && body.trim()) {
 					requestInit.body = body;
+					// 如果请求体是 form-urlencoded 格式，保持 Content-Type
+					const contentType = request.headers.get("content-type");
+					if (contentType?.includes("application/x-www-form-urlencoded")) {
+						(requestInit.headers as Record<string, string>)["Content-Type"] = "application/x-www-form-urlencoded";
+					}
 				} else {
 					// 如果没有请求体，使用 form-urlencoded（Java @RequestParam 需要）
 					(requestInit.headers as Record<string, string>)["Content-Type"] = "application/x-www-form-urlencoded";

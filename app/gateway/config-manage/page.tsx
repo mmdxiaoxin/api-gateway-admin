@@ -634,6 +634,7 @@ const GatewayConfigManage = () => {
 					form.resetFields();
 				}}
 				footer={null}
+				width={600}
 			>
 				<Form
 					form={form}
@@ -643,28 +644,95 @@ const GatewayConfigManage = () => {
 					<Form.Item
 						name="groupId"
 						label="分组ID"
-						rules={[{ required: true, message: "请输入分组ID" }]}
+						rules={[
+							{ required: true, message: "请输入分组ID" },
+							{ pattern: /^[a-zA-Z0-9_-]+$/, message: "分组ID只能包含字母、数字、下划线和连字符" },
+							{ max: 64, message: "分组ID长度不能超过64个字符" },
+						]}
+						tooltip="用于逻辑划分不同的网关集群，例如：10001、api-gateway-group-1。此ID会用于生成Nginx配置的upstream名称。"
 					>
-						<Input placeholder="请输入分组ID" />
+						<Input
+							placeholder="例如: 10001 或 api-gateway-group-1"
+							onChange={(e) => {
+								const groupId = e.target.value;
+								const gatewayName = form.getFieldValue("gatewayName");
+								// 如果网关名称已填写，自动生成网关ID建议
+								if (gatewayName && groupId) {
+									const suggestedGatewayId = `${groupId}-${gatewayName.toLowerCase().replace(/\s+/g, "-")}`;
+									form.setFieldsValue({ gatewayId: suggestedGatewayId });
+								}
+							}}
+						/>
 					</Form.Item>
 					<Form.Item
 						name="gatewayId"
 						label="网关ID"
-						rules={[{ required: true, message: "请输入网关ID" }]}
+						rules={[
+							{ required: true, message: "请输入网关ID" },
+							{ pattern: /^[a-zA-Z0-9_-]+$/, message: "网关ID只能包含字母、数字、下划线和连字符" },
+							{ max: 32, message: "网关ID长度不能超过32个字符" },
+						]}
+						tooltip="网关的唯一标识符，例如：api-gateway-g3。此ID会用于生成Nginx配置。建议格式：分组ID-网关名称。"
 					>
-						<Input placeholder="请输入网关ID" />
+						<Input
+							placeholder="例如: api-gateway-g3"
+							onChange={(e) => {
+								const gatewayId = e.target.value;
+								// 检查是否已存在相同的网关ID
+								const exists = detailList.some(
+									(item) => item.gatewayId === gatewayId
+								);
+								if (exists) {
+									form.setFields([
+										{
+											name: "gatewayId",
+											errors: ["该网关ID已存在，请使用其他ID"],
+										},
+									]);
+								} else {
+									form.setFields([
+										{
+											name: "gatewayId",
+											errors: [],
+										},
+									]);
+								}
+							}}
+						/>
 					</Form.Item>
 					<Form.Item
 						name="gatewayName"
 						label="网关名称"
-						rules={[{ required: true, message: "请输入网关名称" }]}
+						rules={[
+							{ required: true, message: "请输入网关名称" },
+							{ max: 128, message: "网关名称长度不能超过128个字符" },
+						]}
+						tooltip="网关的显示名称，用于标识和描述网关用途。"
 					>
-						<Input placeholder="请输入网关名称" />
+						<Input
+							placeholder="例如: API网关-G3"
+							onChange={(e) => {
+								const gatewayName = e.target.value;
+								const groupId = form.getFieldValue("groupId");
+								// 如果分组ID已填写，自动生成网关ID建议
+								if (gatewayName && groupId) {
+									const suggestedGatewayId = `${groupId}-${gatewayName.toLowerCase().replace(/\s+/g, "-")}`;
+									form.setFieldsValue({ gatewayId: suggestedGatewayId });
+								}
+							}}
+						/>
 					</Form.Item>
 					<Form.Item
 						name="gatewayAddress"
 						label="网关地址"
-						rules={[{ required: true, message: "请输入网关地址" }]}
+						rules={[
+							{ required: true, message: "请输入网关地址" },
+							{
+								pattern: /^(\d{1,3}\.){3}\d{1,3}:\d{1,5}$/,
+								message: "网关地址格式不正确，应为 IP:端口，例如：192.168.1.100:8080",
+							},
+						]}
+						tooltip="网关服务器的IP地址和端口，格式：IP:端口。例如：192.168.1.100:8080"
 					>
 						<Input placeholder="例如: 192.168.1.100:8080" />
 					</Form.Item>
