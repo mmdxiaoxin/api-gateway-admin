@@ -1,3 +1,5 @@
+import axios, { AxiosInstance, AxiosRequestConfig, AxiosError } from "axios";
+
 /**
  * API 响应类型
  */
@@ -27,39 +29,66 @@ function getAuthToken(): string | null {
 }
 
 /**
- * 通用请求函数
+ * 创建 axios 实例
  */
-async function request<T>(
-	url: string,
-	options: RequestInit = {}
-): Promise<ApiResponse<T>> {
-	const token = getAuthToken();
+const axiosInstance: AxiosInstance = axios.create({
+	baseURL: API_BASE_URL,
+	timeout: 10000, // 10秒超时
+	headers: {
+		"Content-Type": "application/json",
+	},
+});
 
-	const response = await fetch(`${API_BASE_URL}${url}`, {
-		...options,
-		headers: {
-			"Content-Type": "application/json",
-			...(token && { Authorization: `Bearer ${token}` }),
-			...options.headers,
-		},
-	});
-
-	if (!response.ok) {
-		const errorData = await response.json().catch(() => ({}));
-		throw new Error(errorData.msg || `HTTP error! status: ${response.status}`);
+/**
+ * 请求拦截器 - 添加 token
+ */
+axiosInstance.interceptors.request.use(
+	(config) => {
+		const token = getAuthToken();
+		if (token && config.headers) {
+			config.headers.Authorization = `Bearer ${token}`;
+		}
+		return config;
+	},
+	(error) => {
+		return Promise.reject(error);
 	}
+);
 
-	return response.json();
-}
+/**
+ * 响应拦截器 - 统一处理错误
+ */
+axiosInstance.interceptors.response.use(
+	(response) => {
+		// 直接返回响应数据（axios 会自动解析 JSON）
+		return response;
+	},
+	(error: AxiosError<ApiResponse>) => {
+		// 处理 HTTP 错误
+		if (error.response) {
+			// 服务器返回了错误状态码
+			const errorData = error.response.data;
+			const errorMessage = errorData?.msg || error.message || `HTTP error! status: ${error.response.status}`;
+			return Promise.reject(new Error(errorMessage));
+		} else if (error.request) {
+			// 请求已发出但没有收到响应
+			return Promise.reject(new Error("网络错误，请检查网络连接"));
+		} else {
+			// 其他错误
+			return Promise.reject(new Error(error.message || "请求失败"));
+		}
+	}
+);
 
 /**
  * GET 请求
  */
-export async function get<T>(url: string, options?: RequestInit): Promise<ApiResponse<T>> {
-	return request<T>(url, {
-		...options,
-		method: "GET",
-	});
+export async function get<T>(
+	url: string,
+	config?: AxiosRequestConfig
+): Promise<ApiResponse<T>> {
+	const response = await axiosInstance.get<ApiResponse<T>>(url, config);
+	return response.data;
 }
 
 /**
@@ -68,13 +97,10 @@ export async function get<T>(url: string, options?: RequestInit): Promise<ApiRes
 export async function post<T>(
 	url: string,
 	data?: unknown,
-	options?: RequestInit
+	config?: AxiosRequestConfig
 ): Promise<ApiResponse<T>> {
-	return request<T>(url, {
-		...options,
-		method: "POST",
-		body: data ? JSON.stringify(data) : undefined,
-	});
+	const response = await axiosInstance.post<ApiResponse<T>>(url, data, config);
+	return response.data;
 }
 
 /**
@@ -83,22 +109,25 @@ export async function post<T>(
 export async function put<T>(
 	url: string,
 	data?: unknown,
-	options?: RequestInit
+	config?: AxiosRequestConfig
 ): Promise<ApiResponse<T>> {
-	return request<T>(url, {
-		...options,
-		method: "PUT",
-		body: data ? JSON.stringify(data) : undefined,
-	});
+	const response = await axiosInstance.put<ApiResponse<T>>(url, data, config);
+	return response.data;
 }
 
 /**
  * DELETE 请求
  */
-export async function del<T>(url: string, options?: RequestInit): Promise<ApiResponse<T>> {
-	return request<T>(url, {
-		...options,
-		method: "DELETE",
-	});
+export async function del<T>(
+	url: string,
+	config?: AxiosRequestConfig
+): Promise<ApiResponse<T>> {
+	const response = await axiosInstance.delete<ApiResponse<T>>(url, config);
+	return response.data;
 }
+
+/**
+ * 导出 axios 实例（用于特殊需求）
+ */
+export { axiosInstance };
 
