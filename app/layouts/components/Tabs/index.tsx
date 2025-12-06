@@ -5,6 +5,7 @@ import { Tabs, TabsProps } from "antd";
 import clsx from "clsx";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { getMenuTitleByPath } from "@/app/config/menu";
 
 interface TabItem {
 	title: string;
@@ -30,11 +31,11 @@ const LayoutTabs = () => {
 		const newTabsList = [...tabsList];
 		const existingTab = newTabsList.find((item) => item.path === pathname);
 
-		if (!existingTab && pathname !== "/") {
-			// 简单的标题生成
-			const title = pathname.split("/").pop() || "页面";
+		if (!existingTab) {
+			// 从菜单配置中获取中文标题
+			const title = getMenuTitleByPath(pathname);
 			newTabsList.push({
-				title: title.charAt(0).toUpperCase() + title.slice(1),
+				title,
 				path: pathname,
 			});
 			setTabsList(newTabsList);
