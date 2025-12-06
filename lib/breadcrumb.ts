@@ -2,6 +2,7 @@ import { MENU_TITLE_MAP } from "@/constants";
 
 /**
  * 根据路径生成面包屑路径数组
+ * 只包含在菜单配置中存在的路径和当前路径
  * 例如: "/gateway/list" -> ["/", "/gateway", "/gateway/list"]
  */
 export function generateBreadcrumbPaths(pathname: string): string[] {
@@ -12,12 +13,21 @@ export function generateBreadcrumbPaths(pathname: string): string[] {
 	const segments = pathname.split("/").filter(Boolean);
 	const paths: string[] = ["/"];
 
+	// 生成所有可能的路径层级
 	for (let i = 0; i < segments.length; i++) {
 		const path = "/" + segments.slice(0, i + 1).join("/");
 		paths.push(path);
 	}
 
-	return paths;
+	// 过滤：只保留在菜单配置中存在的路径，或者当前路径
+	return paths.filter((path) => {
+		// 首页总是保留
+		if (path === "/") return true;
+		// 当前路径总是保留
+		if (path === pathname) return true;
+		// 如果路径在菜单配置中，也保留
+		return MENU_TITLE_MAP[path] !== undefined;
+	});
 }
 
 /**
@@ -39,13 +49,15 @@ export function getBreadcrumbTitle(path: string): string {
 	const segments = path.split("/").filter(Boolean);
 	const lastSegment = segments[segments.length - 1];
 
-	// 简单的英文转中文映射（可选）
+	// 简单的英文转中文映射
 	const segmentMap: Record<string, string> = {
 		list: "列表",
 		config: "配置",
 		detail: "详情",
 		edit: "编辑",
 		add: "新增",
+		create: "创建",
+		update: "更新",
 	};
 
 	return segmentMap[lastSegment] || lastSegment;
