@@ -1,34 +1,45 @@
 "use client";
 
 import { HomeOutlined } from "@ant-design/icons";
-import { Breadcrumb, BreadcrumbProps } from "antd";
+import { Breadcrumb, BreadcrumbProps, Space } from "antd";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import { generateBreadcrumbPaths, getBreadcrumbTitle } from "@/lib/breadcrumb";
 
 const BreadcrumbNav = () => {
 	const pathname = usePathname();
 
-	// 简单的面包屑生成逻辑
-	const pathSegments = pathname.split("/").filter(Boolean);
-	const breadcrumbItems: BreadcrumbProps["items"] = [
-		{
-			title: (
-				<Link href="/">
-					<HomeOutlined /> 首页
-				</Link>
-			),
-		},
-		...pathSegments.map((segment, index) => {
-			const path = "/" + pathSegments.slice(0, index + 1).join("/");
+	// 生成面包屑路径数组
+	const breadcrumbPaths = generateBreadcrumbPaths(pathname);
+
+	// 生成面包屑项
+	const breadcrumbItems: BreadcrumbProps["items"] = breadcrumbPaths.map((path, index) => {
+		const isLast = index === breadcrumbPaths.length - 1;
+		const title = getBreadcrumbTitle(path);
+
+		// 首页特殊处理
+		if (path === "/") {
 			return {
-				title: index === pathSegments.length - 1 ? (
-					segment
-				) : (
-					<Link href={path}>{segment}</Link>
+				title: (
+					<Link href="/">
+						<Space>
+							<HomeOutlined />
+							<span>首页</span>
+						</Space>
+					</Link>
 				),
 			};
-		}),
-	];
+		}
+
+		// 其他路径
+		return {
+			title: isLast ? (
+				title
+			) : (
+				<Link href={path}>{title}</Link>
+			),
+		};
+	});
 
 	return <Breadcrumb items={breadcrumbItems} separator=">" />;
 };
