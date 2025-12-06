@@ -3,7 +3,7 @@
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 import clsx from "clsx";
-import { useLayoutStore } from "@/app/store/layoutStore";
+import { useLayoutStore } from "@/store/layoutStore";
 
 const CollapseIcon = () => {
 	const isCollapse = useLayoutStore((state) => state.isCollapse);

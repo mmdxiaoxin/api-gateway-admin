@@ -12,3 +12,4 @@ export const menuTitleMap: Record<string, string> = {
 export const getMenuTitleByPath = (path: string): string => {
 	return menuTitleMap[path] || "页面";
 };
+

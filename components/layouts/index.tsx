@@ -8,7 +8,7 @@ import LayoutFooter from "./components/Footer";
 import LayoutHeader from "./components/Header";
 import LayoutMenu from "./components/Menu";
 import LayoutTabs from "./components/Tabs";
-import { useLayoutStore } from "@/app/store/layoutStore";
+import { useLayoutStore } from "@/store/layoutStore";
 
 const LayoutIndex = ({ children }: { children: React.ReactNode }) => {
 	const { Sider, Content } = Layout;

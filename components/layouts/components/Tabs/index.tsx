@@ -5,7 +5,7 @@ import { Tabs, TabsProps } from "antd";
 import clsx from "clsx";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { getMenuTitleByPath } from "@/app/config/menu";
+import { getMenuTitleByPath } from "@/config/menu";
 
 interface TabItem {
 	title: string;

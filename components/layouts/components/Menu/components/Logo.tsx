@@ -1,7 +1,7 @@
 "use client";
 
 import clsx from "clsx";
-import { useLayoutStore } from "@/app/store/layoutStore";
+import { useLayoutStore } from "@/store/layoutStore";
 
 const Logo = () => {
 	const isCollapse = useLayoutStore((state) => state.isCollapse);
