@@ -2,31 +2,6 @@
  * 网关管理相关类型定义
  */
 
-// 通用响应类型
-export interface OperationResult<T> {
-	code: number;
-	msg: string;
-	data: T;
-}
-
-export interface Result<T> {
-	code: number;
-	msg: string;
-	data: T;
-}
-
-// 分页请求
-export interface PageRequest {
-	page: string;
-	limit: string;
-}
-
-// 分页响应
-export interface PageData<T> {
-	list: T[];
-	total: number;
-}
-
 // 网关服务数据
 export interface GatewayServerDataVO {
 	groupId: string;

@@ -9,6 +9,11 @@ export interface ApiResponse<T = unknown> {
 	data: T;
 }
 
+export interface PageData<T> {
+	list: T[];
+	total: number;
+}
+
 /**
  * API 客户端配置
  * 使用 Next.js 代理层，所有请求都发送到 Next.js 服务器，由 Next.js 转发到 Java 后端

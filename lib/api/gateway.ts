@@ -1,7 +1,5 @@
-import { get, post, put } from "../api";
+import { get, post, put, type ApiResponse , type PageData} from "../api";
 import type {
-	OperationResult,
-	Result,
 	GatewayServerDataVO,
 	GatewayServerDetailDatalVO,
 	GatewayDistributionDataVO,
@@ -27,15 +25,10 @@ export async function queryGatewayServer(
 	groupId: string,
 	page: string,
 	limit: string
-): Promise<OperationResult<GatewayServerDataVO>> {
-	const response = await get<OperationResult<GatewayServerDataVO>>(
-		"/api/v1/gateway-servers",
-		{
-			params: { groupId, page, limit },
-		}
-	);
-	// 后端直接返回 OperationResult，response.data 就是 OperationResult
-	return response.data as OperationResult<GatewayServerDataVO>;
+): Promise<ApiResponse<PageData<GatewayServerDataVO>>> {
+	return get<PageData<GatewayServerDataVO>>("/api/v1/gateway-servers", {
+		params: { groupId, page, limit },
+	});
 }
 
 // 查询网关服务详情数据
@@ -44,14 +37,10 @@ export async function queryGatewayServerDetail(
 	page: string,
 	limit: string,
 	gatewayId?: string
-): Promise<OperationResult<GatewayServerDetailDatalVO>> {
-	const response = await get<OperationResult<GatewayServerDetailDatalVO>>(
-		"/api/v1/gateway-servers/details",
-		{
-			params: { groupId, gatewayId, page, limit },
-		}
-	);
-	return response.data as OperationResult<GatewayServerDetailDatalVO>;
+): Promise<ApiResponse<PageData<GatewayServerDetailDatalVO>>> {
+	return get<PageData<GatewayServerDetailDatalVO>>("/api/v1/gateway-servers/details", {
+		params: { groupId, gatewayId, page, limit },
+	});
 }
 
 // 查询网关分配数据
@@ -60,14 +49,10 @@ export async function queryGatewayDistribution(
 	limit: string,
 	groupId?: string,
 	gatewayId?: string
-): Promise<OperationResult<GatewayDistributionDataVO>> {
-	const response = await get<OperationResult<GatewayDistributionDataVO>>(
-		"/api/v1/gateway-servers/distributions",
-		{
-			params: { groupId, gatewayId, page, limit },
-		}
-	);
-	return response.data as OperationResult<GatewayDistributionDataVO>;
+): Promise<ApiResponse<PageData<GatewayDistributionDataVO>>> {
+	return get<PageData<GatewayDistributionDataVO>>("/api/v1/gateway-servers/distributions", {
+		params: { groupId, gatewayId, page, limit },
+	});
 }
 
 // 查询应用系统信息
@@ -76,14 +61,10 @@ export async function queryApplicationSystem(
 	limit: string,
 	systemId?: string,
 	systemName?: string
-): Promise<OperationResult<ApplicationSystemDataVO>> {
-	const response = await get<OperationResult<ApplicationSystemDataVO>>(
-		"/api/v1/gateway-servers/application-systems",
-		{
-			params: { systemId, systemName, page, limit },
-		}
-	);
-	return response.data as OperationResult<ApplicationSystemDataVO>;
+): Promise<ApiResponse<PageData<ApplicationSystemDataVO>>> {
+	return get<PageData<ApplicationSystemDataVO>>("/api/v1/gateway-servers/application-systems", {
+		params: { systemId, systemName, page, limit },
+	});
 }
 
 // 查询应用接口信息
@@ -92,14 +73,10 @@ export async function queryApplicationInterface(
 	limit: string,
 	systemId?: string,
 	interfaceId?: string
-): Promise<OperationResult<ApplicationInterfaceDataVO>> {
-	const response = await get<OperationResult<ApplicationInterfaceDataVO>>(
-		"/api/v1/gateway-servers/application-interfaces",
-		{
-			params: { systemId, interfaceId, page, limit },
-		}
-	);
-	return response.data as OperationResult<ApplicationInterfaceDataVO>;
+): Promise<ApiResponse<PageData<ApplicationInterfaceDataVO>>> {
+	return get<PageData<ApplicationInterfaceDataVO>>("/api/v1/gateway-servers/application-interfaces", {
+		params: { systemId, interfaceId, page, limit },
+	});
 }
 
 // 查询应用接口方法信息
@@ -108,14 +85,10 @@ export async function queryApplicationInterfaceMethod(
 	limit: string,
 	systemId?: string,
 	interfaceId?: string
-): Promise<OperationResult<ApplicationInterfaceMethodDataVO>> {
-	const response = await get<OperationResult<ApplicationInterfaceMethodDataVO>>(
-		"/api/v1/gateway-servers/application-interfaces/methods",
-		{
-			params: { systemId, interfaceId, page, limit },
-		}
-	);
-	return response.data as OperationResult<ApplicationInterfaceMethodDataVO>;
+): Promise<ApiResponse<PageData<ApplicationInterfaceMethodDataVO>>> {
+	return get<PageData<ApplicationInterfaceMethodDataVO>>("/api/v1/gateway-servers/application-interfaces/methods", {
+		params: { systemId, interfaceId, page, limit },
+	});
 }
 
 /**
@@ -123,27 +96,18 @@ export async function queryApplicationInterfaceMethod(
  */
 
 // 查询网关服务配置项
-export async function queryServerConfig(): Promise<Result<GatewayServerVO[]>> {
-	const response = await get<Result<GatewayServerVO[]>>(
-		"/api/v1/config/gateway-servers"
-	);
-	return response.data as Result<GatewayServerVO[]>;
+export async function queryServerConfig(): Promise<ApiResponse<GatewayServerVO[]>> {
+	return get<GatewayServerVO[]>("/api/v1/config/gateway-servers");
 }
 
 // 查询网关算力节点配置项
-export async function queryServerDetailConfig(): Promise<Result<GatewayServerDetailVO[]>> {
-	const response = await get<Result<GatewayServerDetailVO[]>>(
-		"/api/v1/config/gateway-server-details"
-	);
-	return response.data as Result<GatewayServerDetailVO[]>;
+export async function queryServerDetailConfig(): Promise<ApiResponse<GatewayServerDetailVO[]>> {
+	return get<GatewayServerDetailVO[]>("/api/v1/config/gateway-server-details");
 }
 
 // 查询网关分配配置项
-export async function queryGatewayDistributionList(): Promise<Result<GatewayDistributionVO[]>> {
-	const response = await get<Result<GatewayDistributionVO[]>>(
-		"/api/v1/config/gateway-distributions"
-	);
-	return response.data as Result<GatewayDistributionVO[]>;
+export async function queryGatewayDistributionList(): Promise<ApiResponse<GatewayDistributionVO[]>> {
+	return get<GatewayDistributionVO[]>("/api/v1/config/gateway-distributions");
 }
 
 // 注册网关服务节点
@@ -152,15 +116,10 @@ export async function registerGatewayServerNode(
 	gatewayId: string,
 	gatewayName: string,
 	gatewayAddress: string
-): Promise<Result<boolean>> {
-	const response = await post<Result<boolean>>(
-		"/api/v1/config/gateway-servers",
-		null,
-		{
-			params: { groupId, gatewayId, gatewayName, gatewayAddress },
-		}
-	);
-	return response.data as Result<boolean>;
+): Promise<ApiResponse<boolean>> {
+	return post<boolean>("/api/v1/config/gateway-servers", null, {
+		params: { groupId, gatewayId, gatewayName, gatewayAddress },
+	});
 }
 
 // 网关算力与系统挂载配置
@@ -168,61 +127,40 @@ export async function distributionGatewayServerNode(
 	groupId: string,
 	gatewayId: string,
 	systemId: string
-): Promise<Result<boolean>> {
-	const response = await post<Result<boolean>>(
-		"/api/v1/config/gateway-distributions",
-		null,
-		{
-			params: { groupId, gatewayId, systemId },
-		}
-	);
-	return response.data as Result<boolean>;
+): Promise<ApiResponse<boolean>> {
+	return post<boolean>("/api/v1/config/gateway-distributions", null, {
+		params: { groupId, gatewayId, systemId },
+	});
 }
 
 // 查询应用服务配置项
-export async function queryApplicationSystemList(): Promise<Result<ApplicationSystemVO[]>> {
-	const response = await get<Result<ApplicationSystemVO[]>>(
-		"/api/v1/config/application-systems"
-	);
-	return response.data as Result<ApplicationSystemVO[]>;
+export async function queryApplicationSystemList(): Promise<ApiResponse<ApplicationSystemVO[]>> {
+	return get<ApplicationSystemVO[]>("/api/v1/config/application-systems");
 }
 
 // 查询应用接口配置项
-export async function queryApplicationInterfaceList(): Promise<Result<ApplicationInterfaceVO[]>> {
-	const response = await get<Result<ApplicationInterfaceVO[]>>(
-		"/api/v1/config/application-interfaces"
-	);
-	return response.data as Result<ApplicationInterfaceVO[]>;
+export async function queryApplicationInterfaceList(): Promise<ApiResponse<ApplicationInterfaceVO[]>> {
+	return get<ApplicationInterfaceVO[]>("/api/v1/config/application-interfaces");
 }
 
 // 查询应用接口方法配置项
-export async function queryApplicationInterfaceMethodList(): Promise<Result<ApplicationInterfaceMethodVO[]>> {
-	const response = await get<Result<ApplicationInterfaceMethodVO[]>>(
-		"/api/v1/config/application-interface-methods"
-	);
-	return response.data as Result<ApplicationInterfaceMethodVO[]>;
+export async function queryApplicationInterfaceMethodList(): Promise<ApiResponse<ApplicationInterfaceMethodVO[]>> {
+	return get<ApplicationInterfaceMethodVO[]>("/api/v1/config/application-interface-methods");
 }
 
 // 查询分配到网关下的待注册系统信息
 export async function queryApplicationSystemRichInfo(
 	gatewayId: string,
 	systemId: string
-): Promise<Result<ApplicationSystemRichInfo>> {
-	const response = await get<Result<ApplicationSystemRichInfo>>(
-		"/api/v1/config/application-systems/rich-info",
-		{
-			params: { gatewayId, systemId },
-		}
-	);
-	return response.data as Result<ApplicationSystemRichInfo>;
+): Promise<ApiResponse<ApplicationSystemRichInfo>> {
+	return get<ApplicationSystemRichInfo>("/api/v1/config/application-systems/rich-info", {
+		params: { gatewayId, systemId },
+	});
 }
 
 // 查询配置中心Redis配置信息
-export async function queryRedisConfig(): Promise<Result<RedisConfig>> {
-	const response = await get<Result<RedisConfig>>(
-		"/api/v1/config/redis-config"
-	);
-	return response.data as Result<RedisConfig>;
+export async function queryRedisConfig(): Promise<ApiResponse<RedisConfig>> {
+	return get<RedisConfig>("/api/v1/config/redis-config");
 }
 
 /**
@@ -252,15 +190,10 @@ export async function registerApplication(
 	systemName: string,
 	systemType: string,
 	systemRegistry: string
-): Promise<Result<boolean>> {
-	const response = await post<Result<boolean>>(
-		"/api/v1/register/applications",
-		null,
-		{
-			params: { systemId, systemName, systemType, systemRegistry },
-		}
-	);
-	return response.data as Result<boolean>;
+): Promise<ApiResponse<boolean>> {
+	return post<boolean>("/api/v1/register/applications", null, {
+		params: { systemId, systemName, systemType, systemRegistry },
+	});
 }
 
 // 注册应用接口
@@ -269,15 +202,10 @@ export async function registerApplicationInterface(
 	interfaceId: string,
 	interfaceName: string,
 	interfaceVersion: string
-): Promise<Result<boolean>> {
-	const response = await post<Result<boolean>>(
-		"/api/v1/register/application-interfaces",
-		null,
-		{
-			params: { systemId, interfaceId, interfaceName, interfaceVersion },
-		}
-	);
-	return response.data as Result<boolean>;
+): Promise<ApiResponse<boolean>> {
+	return post<boolean>("/api/v1/register/application-interfaces", null, {
+		params: { systemId, interfaceId, interfaceName, interfaceVersion },
+	});
 }
 
 // 注册应用接口方法
@@ -290,35 +218,25 @@ export async function registerApplicationInterfaceMethod(
 	uri: string,
 	httpCommandType: string,
 	auth: number
-): Promise<Result<boolean>> {
-	const response = await post<Result<boolean>>(
-		"/api/v1/register/application-interface-methods",
-		null,
-		{
-			params: {
-				systemId,
-				interfaceId,
-				methodId,
-				methodName,
-				parameterType,
-				uri,
-				httpCommandType,
-				auth,
-			},
-		}
-	);
-	return response.data as Result<boolean>;
+): Promise<ApiResponse<boolean>> {
+	return post<boolean>("/api/v1/register/application-interface-methods", null, {
+		params: {
+			systemId,
+			interfaceId,
+			methodId,
+			methodName,
+			parameterType,
+			uri,
+			httpCommandType,
+			auth,
+		},
+	});
 }
 
 // 应用信息注册完成通知
-export async function registerEvent(systemId: string): Promise<Result<boolean>> {
-	const response = await post<Result<boolean>>(
-		"/api/v1/register/events",
-		null,
-		{
-			params: { systemId },
-		}
-	);
-	return response.data as Result<boolean>;
+export async function registerEvent(systemId: string): Promise<ApiResponse<boolean>> {
+	return post<boolean>("/api/v1/register/events", null, {
+		params: { systemId },
+	});
 }
 

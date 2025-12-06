@@ -102,9 +102,10 @@ const GatewayDataManage = () => {
 				String(serverPageSize)
 			);
 			if (result.code === 200) {
-				const data = Array.isArray(result.data) ? result.data : [];
+				const pageData = result.data;
+				const data = Array.isArray(pageData?.list) ? pageData.list : [];
 				setServerData(data);
-				setServerTotal(data.length);
+				setServerTotal(pageData?.total || 0);
 			} else {
 				message.error(result.msg || "查询失败");
 			}
@@ -130,9 +131,10 @@ const GatewayDataManage = () => {
 				detailGatewayId || undefined
 			);
 			if (result.code === 200) {
-				const data = Array.isArray(result.data) ? result.data : [];
+				const pageData = result.data;
+				const data = Array.isArray(pageData?.list) ? pageData.list : [];
 				setDetailData(data);
-				setDetailTotal(data.length);
+				setDetailTotal(pageData?.total || 0);
 			} else {
 				message.error(result.msg || "查询失败");
 			}
@@ -154,9 +156,10 @@ const GatewayDataManage = () => {
 				distributionGatewayId || undefined
 			);
 			if (result.code === 200) {
-				const data = Array.isArray(result.data) ? result.data : [];
+				const pageData = result.data;
+				const data = Array.isArray(pageData?.list) ? pageData.list : [];
 				setDistributionData(data);
-				setDistributionTotal(data.length);
+				setDistributionTotal(pageData?.total || 0);
 			} else {
 				message.error(result.msg || "查询失败");
 			}
@@ -178,9 +181,10 @@ const GatewayDataManage = () => {
 				systemName || undefined
 			);
 			if (result.code === 200) {
-				const data = Array.isArray(result.data) ? result.data : [];
+				const pageData = result.data;
+				const data = Array.isArray(pageData?.list) ? pageData.list : [];
 				setSystemData(data);
-				setSystemTotal(data.length);
+				setSystemTotal(pageData?.total || 0);
 			} else {
 				message.error(result.msg || "查询失败");
 			}
@@ -202,9 +206,10 @@ const GatewayDataManage = () => {
 				interfaceId || undefined
 			);
 			if (result.code === 200) {
-				const data = Array.isArray(result.data) ? result.data : [];
+				const pageData = result.data;
+				const data = Array.isArray(pageData?.list) ? pageData.list : [];
 				setInterfaceData(data);
-				setInterfaceTotal(data.length);
+				setInterfaceTotal(pageData?.total || 0);
 			} else {
 				message.error(result.msg || "查询失败");
 			}
@@ -226,9 +231,10 @@ const GatewayDataManage = () => {
 				methodInterfaceId || undefined
 			);
 			if (result.code === 200) {
-				const data = Array.isArray(result.data) ? result.data : [];
+				const pageData = result.data;
+				const data = Array.isArray(pageData?.list) ? pageData.list : [];
 				setMethodData(data);
-				setMethodTotal(data.length);
+				setMethodTotal(pageData?.total || 0);
 			} else {
 				message.error(result.msg || "查询失败");
 			}
