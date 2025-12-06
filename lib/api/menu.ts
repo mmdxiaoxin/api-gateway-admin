@@ -9,6 +9,6 @@ export async function getMenuData(): Promise<MenuItemConfig[]> {
 	if (response.code === 200) {
 		return response.data;
 	}
-	throw new Error(response.message || "获取菜单失败");
+	throw new Error(response.msg || "获取菜单失败");
 }
 

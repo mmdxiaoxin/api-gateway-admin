@@ -10,7 +10,7 @@ export async function GET() {
 		// 返回菜单配置数据
 		return NextResponse.json({
 			code: 200,
-			message: "获取菜单成功",
+			msg: "获取菜单成功",
 			data: MENU_ITEMS_CONFIG,
 		});
 	} catch (error) {
@@ -18,7 +18,7 @@ export async function GET() {
 		return NextResponse.json(
 			{
 				code: 500,
-				message: "获取菜单失败",
+				msg: "获取菜单失败",
 				data: null,
 			},
 			{ status: 500 }

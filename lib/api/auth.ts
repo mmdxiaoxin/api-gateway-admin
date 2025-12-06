@@ -19,7 +19,7 @@ export async function login(data: LoginRequest): Promise<LoginResponse> {
 	if (response.code === 200) {
 		return response.data;
 	}
-	throw new Error(response.message || "登录失败");
+	throw new Error(response.msg || "登录失败");
 }
 
 /**
@@ -28,7 +28,7 @@ export async function login(data: LoginRequest): Promise<LoginResponse> {
 export async function logout(): Promise<void> {
 	const response = await post("/api/auth/logout");
 	if (response.code !== 200) {
-		throw new Error(response.message || "退出登录失败");
+		throw new Error(response.msg || "退出登录失败");
 	}
 }
 

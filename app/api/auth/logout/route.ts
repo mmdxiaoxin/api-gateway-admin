@@ -13,7 +13,7 @@ export async function POST() {
 
 		return NextResponse.json({
 			code: 200,
-			message: "退出登录成功",
+			msg: "退出登录成功",
 			data: null,
 		});
 	} catch (error) {
@@ -21,7 +21,7 @@ export async function POST() {
 		return NextResponse.json(
 			{
 				code: 500,
-				message: "退出登录失败",
+				msg: "退出登录失败",
 				data: null,
 			},
 			{ status: 500 }

@@ -13,10 +13,11 @@
 获取系统菜单配置数据。
 
 **响应示例：**
+
 ```json
 {
   "code": 200,
-  "message": "获取菜单成功",
+  "msg": "获取菜单成功",
   "data": [
     {
       "key": "/",
@@ -45,6 +46,7 @@
 用户登录接口。
 
 **请求体：**
+
 ```json
 {
   "login": "admin",
@@ -53,10 +55,11 @@
 ```
 
 **响应示例：**
+
 ```json
 {
   "code": 200,
-  "message": "登录成功",
+  "msg": "登录成功",
   "data": {
     "token": "token_admin_1234567890",
     "user": {
@@ -69,6 +72,7 @@
 ```
 
 **测试账号：**
+
 - 管理员：`admin` / `admin123`
 - 普通用户：`user` / `user123`
 
@@ -79,10 +83,11 @@
 用户退出登录接口。
 
 **响应示例：**
+
 ```json
 {
   "code": 200,
-  "message": "退出登录成功",
+  "msg": "退出登录成功",
   "data": null
 }
 ```
@@ -134,4 +139,3 @@ const { token, user, setToken, setUser, logout } = useAuthStore();
    - 使用 JWT 生成 token
    - 配置 HTTPS 以保护 cookie
    - 实现 token 刷新机制
-

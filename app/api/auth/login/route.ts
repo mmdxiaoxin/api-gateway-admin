@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
 			return NextResponse.json(
 				{
 					code: 400,
-					message: "用户名和密码不能为空",
+					msg: "用户名和密码不能为空",
 					data: null,
 				},
 				{ status: 400 }
@@ -43,7 +43,7 @@ export async function POST(request: NextRequest) {
 			return NextResponse.json(
 				{
 					code: 401,
-					message: "用户名或密码错误",
+					msg: "用户名或密码错误",
 					data: null,
 				},
 				{ status: 401 }
@@ -65,7 +65,7 @@ export async function POST(request: NextRequest) {
 		// 返回用户信息和 token
 		return NextResponse.json({
 			code: 200,
-			message: "登录成功",
+			msg: "登录成功",
 			data: {
 				token,
 				user: {
@@ -80,7 +80,7 @@ export async function POST(request: NextRequest) {
 		return NextResponse.json(
 			{
 				code: 500,
-				message: "登录失败，请稍后重试",
+				msg: "登录失败，请稍后重试",
 				data: null,
 			},
 			{ status: 500 }
