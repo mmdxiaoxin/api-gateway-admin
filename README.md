@@ -1,36 +1,239 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# API Gateway Center
 
-## Getting Started
+网关管理后台系统，基于 Next.js 16 构建。
 
-First, run the development server:
+## 开发环境
+
+### 安装依赖
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+pnpm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 启动开发服务器
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+pnpm dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+访问 [http://localhost:3000](http://localhost:3000)
 
-## Learn More
+## 生产环境构建与部署
 
-To learn more about Next.js, take a look at the following resources:
+### 1. 构建项目
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+pnpm build
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+构建完成后，会在 `.next` 目录生成优化后的生产文件。
 
-## Deploy on Vercel
+### 2. 打包后的目录结构
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```
+.next/
+├── static/          # 静态资源（JS、CSS、图片等）
+├── server/          # 服务端代码
+├── cache/           # 构建缓存
+└── BUILD_ID         # 构建 ID
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### 3. 启动生产服务器
+
+#### 方式一：使用 Next.js 内置服务器（推荐）
+
+```bash
+# 设置环境变量
+export NEXT_PUBLIC_API_BASE_URL=http://your-api-server.com
+
+# 启动生产服务器
+pnpm start
+```
+
+默认端口：`3000`，可通过 `-p` 参数指定端口：
+
+```bash
+pnpm start -p 8080
+```
+
+#### 方式二：使用 PM2 进程管理
+
+```bash
+# 安装 PM2
+npm install -g pm2
+
+# 创建 ecosystem.config.js
+cat > ecosystem.config.js << EOF
+module.exports = {
+  apps: [{
+    name: 'api-gateway-center',
+    script: 'node_modules/next/dist/bin/next',
+    args: 'start',
+    instances: 'max',
+    exec_mode: 'cluster',
+    env: {
+      NODE_ENV: 'production',
+      PORT: 3000,
+      NEXT_PUBLIC_API_BASE_URL: 'http://your-api-server.com'
+    }
+  }]
+}
+EOF
+
+# 启动应用
+pm2 start ecosystem.config.js
+
+# 查看状态
+pm2 status
+
+# 查看日志
+pm2 logs api-gateway-center
+
+# 停止应用
+pm2 stop api-gateway-center
+
+# 重启应用
+pm2 restart api-gateway-center
+```
+
+#### 方式三：使用 Docker 部署
+
+创建 `Dockerfile`：
+
+```dockerfile
+FROM node:18-alpine AS base
+
+# 安装依赖
+FROM base AS deps
+RUN apk add --no-cache libc6-compat
+WORKDIR /app
+COPY package.json pnpm-lock.yaml ./
+RUN corepack enable && corepack prepare pnpm@latest --activate
+RUN pnpm install --frozen-lockfile
+
+# 构建应用
+FROM base AS builder
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
+ENV NEXT_PUBLIC_API_BASE_URL=http://your-api-server.com
+RUN corepack enable && corepack prepare pnpm@latest --activate
+RUN pnpm build
+
+# 运行应用
+FROM base AS runner
+WORKDIR /app
+ENV NODE_ENV production
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
+
+COPY --from=builder /app/public ./public
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+
+USER nextjs
+EXPOSE 3000
+ENV PORT 3000
+ENV HOSTNAME "0.0.0.0"
+
+CMD ["node", "server.js"]
+```
+
+构建和运行：
+
+```bash
+# 构建镜像
+docker build -t api-gateway-center .
+
+# 运行容器
+docker run -p 3000:3000 \
+  -e NEXT_PUBLIC_API_BASE_URL=http://your-api-server.com \
+  api-gateway-center
+```
+
+#### 方式四：使用 Nginx 反向代理
+
+创建 Nginx 配置 `nginx.conf`：
+
+```nginx
+server {
+    listen 80;
+    server_name your-domain.com;
+
+    location / {
+        proxy_pass http://localhost:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+```
+
+### 4. 环境变量配置
+
+创建 `.env.production` 文件：
+
+```env
+# API 基础地址（必需）
+NEXT_PUBLIC_API_BASE_URL=http://your-api-server.com
+
+# Node 环境
+NODE_ENV=production
+
+# 端口（可选，默认 3000）
+PORT=3000
+```
+
+**重要提示：**
+- `NEXT_PUBLIC_*` 开头的变量会在构建时嵌入到客户端代码中
+- 修改环境变量后需要重新构建：`pnpm build`
+- 服务端环境变量可以直接在运行时设置
+
+### 5. 部署检查清单
+
+- [ ] 完成 `pnpm build` 构建
+- [ ] 配置 `NEXT_PUBLIC_API_BASE_URL` 环境变量
+- [ ] 确保 Node.js 版本 >= 18
+- [ ] 确保生产服务器有足够的内存（建议 >= 512MB）
+- [ ] 配置反向代理（如 Nginx）处理 HTTPS
+- [ ] 配置防火墙规则开放端口
+- [ ] 设置进程管理（PM2）确保服务稳定运行
+
+### 6. 性能优化建议
+
+- 使用 CDN 加速静态资源
+- 启用 Gzip/Brotli 压缩
+- 配置缓存策略
+- 使用负载均衡（多实例部署）
+
+## 其他命令
+
+```bash
+# 代码检查
+pnpm lint
+
+# 自动修复代码问题
+pnpm lint:fix
+
+# 构建分析（需要安装 @next/bundle-analyzer）
+pnpm build:analyze
+```
+
+## 技术栈
+
+- **框架**: Next.js 16 (App Router)
+- **UI 库**: Ant Design 6
+- **状态管理**: Zustand
+- **样式**: Tailwind CSS 4
+- **构建工具**: Turbopack
+- **包管理**: pnpm
+
+## 相关文档
+
+- [Next.js 文档](https://nextjs.org/docs)
+- [Next.js 部署文档](https://nextjs.org/docs/app/building-your-application/deploying)
