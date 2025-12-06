@@ -3,7 +3,7 @@
 import { Menu, MenuProps, Spin } from "antd";
 import clsx from "clsx";
 import { usePathname, useRouter } from "next/navigation";
-import { useMemo, useState, useEffect } from "react";
+import { useMemo, useState, useEffect, useCallback } from "react";
 import type { MenuItemConfig } from "@/constants/menu";
 import { getMenuData } from "@/lib/api/menu";
 import IconComponent from "@/components/ui/IconComponent";
@@ -11,25 +11,42 @@ import Logo from "./components/Logo";
 
 type MenuItem = Required<MenuProps>["items"][number];
 
-// 将菜单配置转换为 Ant Design Menu 组件需要的格式
-const convertMenuItems = (menuConfig: MenuItemConfig[]): MenuItem[] => {
-	return menuConfig.map((item) => ({
-		key: item.key,
-		icon: item.icon ? <IconComponent name={item.icon} /> : undefined,
-		label: item.label,
-		children: item.children?.map((child) => ({
-			key: child.key,
-			icon: child.icon ? <IconComponent name={child.icon} /> : undefined,
-			label: child.label,
-		})),
-	}));
-};
-
 const LayoutMenu = () => {
 	const pathname = usePathname();
 	const router = useRouter();
 	const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
 	const [loading, setLoading] = useState(true);
+	
+	// 将菜单配置转换为 Ant Design Menu 组件需要的格式
+	const convertMenuItems = useCallback((menuConfig: MenuItemConfig[]): MenuItem[] => {
+		return menuConfig.map((item) => {
+			// 如果有子菜单，使用自定义 label 使标题可点击跳转
+			const label = item.children ? (
+				<span
+					onClick={(e) => {
+						e.stopPropagation();
+						router.push(item.key);
+					}}
+					style={{ cursor: "pointer", flex: 1 }}
+				>
+					{item.label}
+				</span>
+			) : (
+				item.label
+			);
+
+			return {
+				key: item.key,
+				icon: item.icon ? <IconComponent name={item.icon} /> : undefined,
+				label,
+				children: item.children?.map((child) => ({
+					key: child.key,
+					icon: child.icon ? <IconComponent name={child.icon} /> : undefined,
+					label: child.label,
+				})),
+			};
+		});
+	}, [router]);
 	
 	// 从后端获取菜单数据
 	useEffect(() => {
@@ -49,7 +66,7 @@ const LayoutMenu = () => {
 		};
 		
 		fetchMenuData();
-	}, []);
+	}, [convertMenuItems]);
 	
 	// 使用 useMemo 计算 selectedKeys，避免在 useEffect 中设置状态
 	const selectedKeys = useMemo(() => [pathname], [pathname]);
