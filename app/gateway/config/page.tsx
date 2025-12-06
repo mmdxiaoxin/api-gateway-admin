@@ -1,6 +1,6 @@
 "use client";
 
-import { Card, Form, Input, Button, Switch, Select, InputNumber, message, Space } from "antd";
+import { Card, Form, Input, Button, Switch, Select, InputNumber, Space, App } from "antd";
 import { SaveOutlined, ReloadOutlined } from "@ant-design/icons";
 import { Typography } from "antd";
 
@@ -8,9 +8,10 @@ const { Title } = Typography;
 const { TextArea } = Input;
 
 const GatewayConfig = () => {
+	const { message } = App.useApp();
 	const [form] = Form.useForm();
 
-	const onFinish = (values: any) => {
+	const onFinish = (values: unknown) => {
 		console.log("配置保存:", values);
 		message.success("配置保存成功");
 	};

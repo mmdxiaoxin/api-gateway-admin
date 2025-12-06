@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Card, Table, Tag, Space, Popconfirm, message, Input } from "antd";
+import { Button, Card, Table, Tag, Space, Popconfirm, Input, App } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import { PlusOutlined, EditOutlined, DeleteOutlined, SearchOutlined } from "@ant-design/icons";
 import { Typography } from "antd";
@@ -10,6 +10,7 @@ import type { UserListItem } from "@/types";
 const { Title } = Typography;
 
 const UserManagement = () => {
+	const { message } = App.useApp();
 	const [searchText, setSearchText] = useState("");
 
 	// 模拟数据

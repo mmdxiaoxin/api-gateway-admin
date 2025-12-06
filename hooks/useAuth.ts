@@ -4,7 +4,7 @@ import { useAuthStore } from "@/store/authStore";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { logout as logoutApi } from "@/lib/api/auth";
-import { message } from "antd";
+import { App } from "antd";
 
 /**
  * 认证相关的自定义 Hook
@@ -12,6 +12,7 @@ import { message } from "antd";
 export function useAuth() {
 	const { token, user, setToken, setUser, logout } = useAuthStore();
 	const router = useRouter();
+	const { message } = App.useApp();
 
 	/**
 	 * 检查是否已登录
@@ -36,13 +37,14 @@ export function useAuth() {
 			
 			message.success("退出登录成功");
 			router.push("/login");
-		} catch (error: any) {
+		} catch (error: unknown) {
 			// 即使 API 调用失败，也清除本地状态
 			if (typeof window !== "undefined") {
 				localStorage.removeItem("auth-token");
 			}
 			logout();
-			message.error(error.message || "退出登录失败");
+			const errorMessage = error instanceof Error ? error.message : "退出登录失败";
+			message.error(errorMessage);
 			router.push("/login");
 		}
 	};

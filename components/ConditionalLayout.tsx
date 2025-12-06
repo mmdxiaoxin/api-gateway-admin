@@ -4,7 +4,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
 import LayoutIndex from "@/components/layout";
 import { useAuthStore } from "@/store/authStore";
-import { Spin } from "antd";
+import { Spin, App } from "antd";
 
 export default function ConditionalLayout({
 	children,
@@ -26,20 +26,26 @@ export default function ConditionalLayout({
 
 	// 如果是登录页面，直接返回内容，不使用主布局
 	if (isLoginPage) {
-		return <>{children}</>;
+		return <App>{children}</App>;
 	}
 
 	// 如果未登录，显示加载中（实际上会立即重定向）
 	if (!token) {
 		return (
-			<div className="flex flex-col items-center justify-center h-screen">
-				<Spin size="large" />
-				<p className="mt-4 text-gray-500">检查登录状态...</p>
-			</div>
+			<App>
+				<div className="flex flex-col items-center justify-center h-screen">
+					<Spin size="large" />
+					<p className="mt-4 text-gray-500">检查登录状态...</p>
+				</div>
+			</App>
 		);
 	}
 
 	// 已登录，使用主布局
-	return <LayoutIndex>{children}</LayoutIndex>;
+	return (
+		<App>
+			<LayoutIndex>{children}</LayoutIndex>
+		</App>
+	);
 }
 

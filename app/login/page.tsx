@@ -7,7 +7,7 @@ import {
 	UserAddOutlined,
 	UserOutlined,
 } from "@ant-design/icons";
-import { Button, Col, Flex, FloatButton, Form, Input, message, Row } from "antd";
+import { Button, Col, Flex, FloatButton, Form, Input, Row, App } from "antd";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import clsx from "clsx";
@@ -22,6 +22,7 @@ interface FormData {
 const Login = () => {
 	const router = useRouter();
 	const { token, setToken, setUser } = useAuthStore();
+	const { message } = App.useApp();
 
 	const [form] = Form.useForm();
 	const [loading, setLoading] = useState<boolean>(false);
@@ -51,8 +52,9 @@ const Login = () => {
 			
 			message.success("登录成功");
 			router.push("/");
-		} catch (error: any) {
-			message.error(error.message || "登录失败，请稍后重试");
+		} catch (error: unknown) {
+			const errorMessage = error instanceof Error ? error.message : "登录失败，请稍后重试";
+			message.error(errorMessage);
 		} finally {
 			setLoading(false);
 		}

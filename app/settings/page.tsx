@@ -1,6 +1,6 @@
 "use client";
 
-import { Card, Form, Switch, Input, Button, Select, message, Space } from "antd";
+import { Card, Form, Switch, Input, Button, Select, Space, App } from "antd";
 import { SaveOutlined, ReloadOutlined } from "@ant-design/icons";
 import { Typography } from "antd";
 
@@ -23,6 +23,7 @@ interface FormValues {
 }
 
 const SystemSettings = () => {
+	const { message } = App.useApp();
 	const [form] = Form.useForm();
 
 	const onFinish = (values: FormValues) => {

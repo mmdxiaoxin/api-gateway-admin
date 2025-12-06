@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Card, Table, Tag, Space, Popconfirm, message } from "antd";
+import { Button, Card, Table, Tag, Space, Popconfirm, App } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import {
 	PlusOutlined,
@@ -14,6 +14,7 @@ import type { GatewayItem } from "@/types";
 const { Title } = Typography;
 
 const GatewayList = () => {
+	const { message } = App.useApp();
 	// 模拟数据
 	const dataSource: GatewayItem[] = [
 		{
