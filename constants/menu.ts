@@ -31,6 +31,48 @@ export const MENU_ICON_MAP: Record<string, IconName> = {
 	[MENU_CONFIG.SETTINGS]: "SettingOutlined",
 };
 
+// 菜单项配置类型
+export interface MenuItemConfig {
+	key: string;
+	icon?: IconName;
+	label: string;
+	children?: MenuItemConfig[];
+}
+
+// 菜单数据配置（集中管理所有菜单项）
+export const MENU_ITEMS_CONFIG: MenuItemConfig[] = [
+	{
+		key: MENU_CONFIG.HOME,
+		icon: MENU_ICON_MAP[MENU_CONFIG.HOME],
+		label: MENU_TITLE_MAP[MENU_CONFIG.HOME],
+	},
+	{
+		key: MENU_CONFIG.GATEWAY,
+		icon: MENU_ICON_MAP[MENU_CONFIG.GATEWAY],
+		label: MENU_TITLE_MAP[MENU_CONFIG.GATEWAY],
+		children: [
+			{
+				key: MENU_CONFIG.GATEWAY_LIST,
+				label: MENU_TITLE_MAP[MENU_CONFIG.GATEWAY_LIST],
+			},
+			{
+				key: MENU_CONFIG.GATEWAY_CONFIG,
+				label: MENU_TITLE_MAP[MENU_CONFIG.GATEWAY_CONFIG],
+			},
+		],
+	},
+	{
+		key: MENU_CONFIG.USER,
+		icon: MENU_ICON_MAP[MENU_CONFIG.USER],
+		label: MENU_TITLE_MAP[MENU_CONFIG.USER],
+	},
+	{
+		key: MENU_CONFIG.SETTINGS,
+		icon: MENU_ICON_MAP[MENU_CONFIG.SETTINGS],
+		label: MENU_TITLE_MAP[MENU_CONFIG.SETTINGS],
+	},
+];
+
 // 根据路径获取菜单标题的工具函数
 export const getMenuTitleByPath = (path: string): string => {
 	return MENU_TITLE_MAP[path] || "页面";

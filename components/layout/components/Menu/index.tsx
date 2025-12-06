@@ -4,56 +4,27 @@ import { Menu, MenuProps } from "antd";
 import clsx from "clsx";
 import { usePathname, useRouter } from "next/navigation";
 import { useMemo, useState, useEffect } from "react";
-import { MENU_TITLE_MAP, MENU_ICON_MAP, MENU_CONFIG } from "@/constants/menu";
+import { MENU_ITEMS_CONFIG } from "@/constants/menu";
 import IconComponent from "@/components/ui/IconComponent";
 import Logo from "./components/Logo";
 
 type MenuItem = Required<MenuProps>["items"][number];
 
-// 菜单数据配置（使用文本配置图标）
-const menuConfig = [
-	{
-		key: MENU_CONFIG.HOME,
-		icon: MENU_ICON_MAP[MENU_CONFIG.HOME],
-		label: MENU_TITLE_MAP[MENU_CONFIG.HOME],
-	},
-	{
-		key: MENU_CONFIG.GATEWAY,
-		icon: MENU_ICON_MAP[MENU_CONFIG.GATEWAY],
-		label: MENU_TITLE_MAP[MENU_CONFIG.GATEWAY],
-		children: [
-			{
-				key: MENU_CONFIG.GATEWAY_LIST,
-				label: MENU_TITLE_MAP[MENU_CONFIG.GATEWAY_LIST],
-			},
-			{
-				key: MENU_CONFIG.GATEWAY_CONFIG,
-				label: MENU_TITLE_MAP[MENU_CONFIG.GATEWAY_CONFIG],
-			},
-		],
-	},
-	{
-		key: MENU_CONFIG.USER,
-		icon: MENU_ICON_MAP[MENU_CONFIG.USER],
-		label: MENU_TITLE_MAP[MENU_CONFIG.USER],
-	},
-	{
-		key: MENU_CONFIG.SETTINGS,
-		icon: MENU_ICON_MAP[MENU_CONFIG.SETTINGS],
-		label: MENU_TITLE_MAP[MENU_CONFIG.SETTINGS],
-	},
-];
+// 将菜单配置转换为 Ant Design Menu 组件需要的格式
+const getMenuItems = (): MenuItem[] => {
+	return MENU_ITEMS_CONFIG.map((item) => ({
+		key: item.key,
+		icon: item.icon ? <IconComponent name={item.icon} /> : undefined,
+		label: item.label,
+		children: item.children?.map((child) => ({
+			key: child.key,
+			label: child.label,
+		})),
+	}));
+};
 
-// 将配置转换为 Menu 组件需要的格式
-const menuItems: MenuItem[] = menuConfig.map((item) => ({
-	key: item.key,
-	icon: item.icon ? <IconComponent name={item.icon} /> : undefined,
-	label: item.label,
-	children: item.children?.map((child) => ({
-		key: child.key,
-		label: child.label,
-	})),
-}));
+// 获取菜单项
+const menuItems = getMenuItems();
 
 const LayoutMenu = () => {
 	const pathname = usePathname();
