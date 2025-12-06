@@ -12,6 +12,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import clsx from "clsx";
 import { useAuthStore } from "@/store/authStore";
+import { login as loginApi } from "@/lib/api/auth";
 
 interface FormData {
 	login: string;
@@ -36,25 +37,22 @@ const Login = () => {
 	const onFinish = async ({ login, password }: FormData) => {
 		try {
 			setLoading(true);
-			// 模拟登录 API 调用
-			await new Promise((resolve) => setTimeout(resolve, 1000)); // 模拟网络延迟
-
-			// 简单的验证逻辑（实际项目中应该调用后端 API）
-			if (login && password) {
-				// 模拟成功登录
-				const mockToken = "mock_token_" + Date.now();
-				setToken(mockToken);
-				setUser({
-					username: login,
-					email: login.includes("@") ? login : undefined,
-				});
-				message.success("登录成功");
-				router.push("/");
-			} else {
-				message.error("请输入用户名和密码");
+			// 调用后端登录 API
+			const result = await loginApi({ login, password });
+			
+			// 保存 token 和用户信息
+			setToken(result.token);
+			setUser(result.user);
+			
+			// 同时保存到 localStorage（用于 API 请求）
+			if (typeof window !== "undefined") {
+				localStorage.setItem("auth-token", result.token);
 			}
-		} catch {
-			message.error("登录失败，请稍后重试");
+			
+			message.success("登录成功");
+			router.push("/");
+		} catch (error: any) {
+			message.error(error.message || "登录失败，请稍后重试");
 		} finally {
 			setLoading(false);
 		}

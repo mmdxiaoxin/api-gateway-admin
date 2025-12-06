@@ -2,8 +2,11 @@
 
 import { LogoutOutlined, UserOutlined } from "@ant-design/icons";
 import { Avatar, Dropdown, MenuProps } from "antd";
+import { useAuth } from "@/hooks/useAuth";
 
 const AvatarIcon = () => {
+	const { user, logout } = useAuth();
+
 	const items: MenuProps["items"] = [
 		{
 			key: "1",
@@ -25,12 +28,15 @@ const AvatarIcon = () => {
 				</span>
 			),
 			icon: <LogoutOutlined />,
+			onClick: logout,
 		},
 	];
 
 	return (
 		<>
-			<span className="m-[0_20px_0_0] text-[15px] text-[rgba(0,0,0,0.85)]">管理员</span>
+			<span className="m-[0_20px_0_0] text-[15px] text-[rgba(0,0,0,0.85)]">
+				{user?.username || "管理员"}
+			</span>
 			<Dropdown menu={{ items }} placement="bottom" arrow trigger={["click"]}>
 				<Avatar className="cursor-pointer" size="large" icon={<UserOutlined />} />
 			</Dropdown>
