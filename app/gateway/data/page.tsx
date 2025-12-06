@@ -428,7 +428,7 @@ const GatewayDataManage = () => {
 						key: "servers",
 						label: "网关服务",
 						children: (
-						<Space direction="vertical" className="w-full" size="middle">
+						<Space orientation="vertical" className="w-full" size="middle">
 							<Space>
 								<Input
 									placeholder="请输入分组ID"
@@ -474,7 +474,7 @@ const GatewayDataManage = () => {
 						key: "details",
 						label: "网关服务详情",
 						children: (
-						<Space direction="vertical" className="w-full" size="middle">
+						<Space orientation="vertical" className="w-full" size="middle">
 							<Space>
 								<Input
 									placeholder="分组ID"
@@ -526,7 +526,7 @@ const GatewayDataManage = () => {
 						key: "distributions",
 						label: "网关分配",
 						children: (
-						<Space direction="vertical" className="w-full" size="middle">
+						<Space orientation="vertical" className="w-full" size="middle">
 							<Space>
 								<Input
 									placeholder="分组ID（可选）"
@@ -578,7 +578,7 @@ const GatewayDataManage = () => {
 						key: "systems",
 						label: "应用系统",
 						children: (
-						<Space direction="vertical" className="w-full" size="middle">
+						<Space orientation="vertical" className="w-full" size="middle">
 							<Space>
 								<Input
 									placeholder="系统ID（可选）"
@@ -630,7 +630,7 @@ const GatewayDataManage = () => {
 						key: "interfaces",
 						label: "应用接口",
 						children: (
-						<Space direction="vertical" className="w-full" size="middle">
+						<Space orientation="vertical" className="w-full" size="middle">
 							<Space>
 								<Input
 									placeholder="系统ID（可选）"
@@ -682,7 +682,7 @@ const GatewayDataManage = () => {
 						key: "methods",
 						label: "接口方法",
 						children: (
-						<Space direction="vertical" className="w-full" size="middle">
+						<Space orientation="vertical" className="w-full" size="middle">
 							<Space>
 								<Input
 									placeholder="系统ID（可选）"

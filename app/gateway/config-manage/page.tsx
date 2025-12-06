@@ -12,8 +12,6 @@ import {
 	Modal,
 	Form,
 	Input,
-	Select,
-	message as antdMessage,
 } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import {
@@ -476,7 +474,7 @@ const GatewayConfigManage = () => {
 						key: "servers",
 						label: "网关服务配置",
 						children: (
-						<Space direction="vertical" className="w-full" size="middle">
+						<Space orientation="vertical" className="w-full" size="middle">
 							<Space>
 								<Button
 									type="primary"
@@ -517,7 +515,7 @@ const GatewayConfigManage = () => {
 						key: "distributions",
 						label: "网关分配配置",
 						children: (
-						<Space direction="vertical" className="w-full" size="middle">
+						<Space orientation="vertical" className="w-full" size="middle">
 							<Space>
 								<Button
 									type="primary"
@@ -547,7 +545,7 @@ const GatewayConfigManage = () => {
 						key: "systems",
 						label: "应用系统配置",
 						children: (
-						<Space direction="vertical" className="w-full" size="middle">
+						<Space orientation="vertical" className="w-full" size="middle">
 							<Button
 								icon={<ReloadOutlined />}
 								onClick={loadSystemConfig}
@@ -568,7 +566,7 @@ const GatewayConfigManage = () => {
 						key: "interfaces",
 						label: "应用接口配置",
 						children: (
-						<Space direction="vertical" className="w-full" size="middle">
+						<Space orientation="vertical" className="w-full" size="middle">
 							<Button
 								icon={<ReloadOutlined />}
 								onClick={loadInterfaceConfig}
@@ -589,7 +587,7 @@ const GatewayConfigManage = () => {
 						key: "methods",
 						label: "接口方法配置",
 						children: (
-						<Space direction="vertical" className="w-full" size="middle">
+						<Space orientation="vertical" className="w-full" size="middle">
 							<Button
 								icon={<ReloadOutlined />}
 								onClick={loadMethodConfig}
@@ -610,7 +608,7 @@ const GatewayConfigManage = () => {
 						key: "redis",
 						label: "Redis配置",
 						children: (
-						<Space direction="vertical" className="w-full" size="middle">
+						<Space orientation="vertical" className="w-full" size="middle">
 							<Button
 								icon={<ReloadOutlined />}
 								onClick={loadRedisConfig}
@@ -740,7 +738,7 @@ const GatewayConfigManage = () => {
 				width={800}
 			>
 				{richInfo && (
-					<Space direction="vertical" className="w-full" size="large">
+					<Space orientation="vertical" className="w-full" size="large">
 						<Card title="系统信息" size="small">
 							<p><strong>系统ID:</strong> {richInfo.system.systemId}</p>
 							<p><strong>系统名称:</strong> {richInfo.system.systemName}</p>

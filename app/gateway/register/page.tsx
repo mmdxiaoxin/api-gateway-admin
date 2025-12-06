@@ -10,7 +10,6 @@ import {
 	Space,
 	App,
 	Select,
-	InputNumber,
 	Radio,
 } from "antd";
 import {
@@ -26,7 +25,6 @@ import {
 } from "@/lib/api/gateway";
 
 const { Title } = Typography;
-const { TextArea } = Input;
 
 const RpcRegisterManage = () => {
 	const { message } = App.useApp();

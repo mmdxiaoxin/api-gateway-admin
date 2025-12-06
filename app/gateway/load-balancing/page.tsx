@@ -6,10 +6,8 @@ import {
 	Button,
 	Space,
 	App,
-	Form,
 	Input,
 	Table,
-	Tag,
 	Popconfirm,
 } from "antd";
 import type { ColumnsType } from "antd/es/table";
@@ -31,7 +29,6 @@ const { TextArea } = Input;
 
 const LoadBalancingManage = () => {
 	const { message } = App.useApp();
-	const [form] = Form.useForm();
 	const [loading, setLoading] = useState(false);
 
 	// Nginx 配置数据
@@ -234,7 +231,7 @@ const LoadBalancingManage = () => {
 		<div className="w-full h-full p-6">
 			<Title level={2}>负载均衡管理</Title>
 			<Card className="mt-4">
-				<Space direction="vertical" className="w-full" size="large">
+				<Space orientation="vertical" className="w-full" size="large">
 					<Space>
 						<Button
 							type="primary"
@@ -254,7 +251,7 @@ const LoadBalancingManage = () => {
 					</Space>
 
 					<Card title="Upstream 配置" size="small">
-						<Space direction="vertical" className="w-full" size="middle">
+						<Space orientation="vertical" className="w-full" size="middle">
 							<Button
 								type="dashed"
 								icon={<PlusOutlined />}
@@ -276,7 +273,7 @@ const LoadBalancingManage = () => {
 					</Card>
 
 					<Card title="Location 配置" size="small">
-						<Space direction="vertical" className="w-full" size="middle">
+						<Space orientation="vertical" className="w-full" size="middle">
 							<Button
 								type="dashed"
 								icon={<PlusOutlined />}
