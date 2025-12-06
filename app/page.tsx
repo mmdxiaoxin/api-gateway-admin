@@ -1,65 +1,85 @@
-import Image from "next/image";
+"use client";
+
+import { Card, Row, Col, Statistic, Typography } from "antd";
+import {
+	ApiOutlined,
+	CheckCircleOutlined,
+	CloseCircleOutlined,
+	ClockCircleOutlined,
+} from "@ant-design/icons";
+
+const { Title } = Typography;
 
 export default function Home() {
-  return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
-  );
+	return (
+		<div className="w-full h-full p-6">
+			<Title level={2}>欢迎使用网关管理后台</Title>
+			<Row gutter={[16, 16]} className="mt-4">
+				<Col xs={24} sm={12} lg={6}>
+					<Card>
+						<Statistic
+							title="总网关数"
+							value={12}
+							prefix={<ApiOutlined />}
+							valueStyle={{ color: "#3f8600" }}
+						/>
+					</Card>
+				</Col>
+				<Col xs={24} sm={12} lg={6}>
+					<Card>
+						<Statistic
+							title="运行中"
+							value={10}
+							prefix={<CheckCircleOutlined />}
+							valueStyle={{ color: "#3f8600" }}
+						/>
+					</Card>
+				</Col>
+				<Col xs={24} sm={12} lg={6}>
+					<Card>
+						<Statistic
+							title="待启动"
+							value={2}
+							prefix={<ClockCircleOutlined />}
+							valueStyle={{ color: "#faad14" }}
+						/>
+					</Card>
+				</Col>
+				<Col xs={24} sm={12} lg={6}>
+					<Card>
+						<Statistic
+							title="已停止"
+							value={0}
+							prefix={<CloseCircleOutlined />}
+							valueStyle={{ color: "#cf1322" }}
+						/>
+					</Card>
+				</Col>
+			</Row>
+			<Row gutter={[16, 16]} className="mt-4">
+				<Col xs={24} lg={12}>
+					<Card title="系统概览" className="h-full">
+						<p>网关管理后台为您提供统一的 API 网关管理解决方案。</p>
+						<ul className="mt-4 space-y-2">
+							<li>• 统一的网关配置管理</li>
+							<li>• 实时监控和统计</li>
+							<li>• 路由规则配置</li>
+							<li>• 用户权限管理</li>
+						</ul>
+					</Card>
+				</Col>
+				<Col xs={24} lg={12}>
+					<Card title="快速开始" className="h-full">
+						<p>开始使用网关管理后台：</p>
+						<ol className="mt-4 space-y-2">
+							<li>1. 配置您的网关实例</li>
+							<li>2. 设置路由规则</li>
+							<li>3. 配置认证和授权</li>
+							<li>4. 监控网关运行状态</li>
+						</ol>
+					</Card>
+				</Col>
+			</Row>
+		</div>
+	);
 }
