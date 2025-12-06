@@ -9,6 +9,9 @@ export const Icons = {
 	ApiOutlined: React.lazy(() => import("@ant-design/icons/ApiOutlined")),
 	SettingOutlined: React.lazy(() => import("@ant-design/icons/SettingOutlined")),
 	UserOutlined: React.lazy(() => import("@ant-design/icons/UserOutlined")),
+	DatabaseOutlined: React.lazy(() => import("@ant-design/icons/DatabaseOutlined")),
+	PartitionOutlined: React.lazy(() => import("@ant-design/icons/PartitionOutlined")),
+	AppstoreAddOutlined: React.lazy(() => import("@ant-design/icons/AppstoreAddOutlined")),
 } as const;
 
 export type IconName = keyof typeof Icons;

@@ -45,3 +45,6 @@ export interface UserListItem {
 	createTime: string;
 }
 
+// 导出网关相关类型
+export * from "./gateway";
+
