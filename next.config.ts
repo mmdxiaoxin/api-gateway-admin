@@ -18,7 +18,11 @@ const nextConfig: NextConfig = {
   },
   
   // 输出配置
-  output: 'standalone', // 生成独立的部署包，减少体积
+  // standalone 模式：生成独立的部署包，只包含运行所需的最小依赖
+  // 主要用于 Docker 部署，减少部署时需要复制的文件
+  // 注意：不会减少浏览器端的 bundle 体积，bundle 体积由代码分割和压缩优化控制
+  // 如果不需要 Docker 部署，可以移除此配置以避免 Windows 权限问题
+  // output: 'standalone',
   
   // 编译器配置
   compiler: {
