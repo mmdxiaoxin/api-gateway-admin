@@ -1,4 +1,4 @@
-# API Gateway Center
+# API Gateway Admin
 
 网关管理后台系统，基于 Next.js 16 构建。
 
