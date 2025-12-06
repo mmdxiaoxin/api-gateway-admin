@@ -19,11 +19,11 @@ const GatewayOverview = () => {
 			<div className="flex justify-between items-center mb-4">
 				<Title level={2}>网关管理</Title>
 				<Space>
-					<Button icon={<PlusOutlined />} onClick={() => router.push("/gateway/list")}>
-						网关列表
+					<Button icon={<PlusOutlined />} onClick={() => router.push("/gateway/data")}>
+						数据管理
 					</Button>
-					<Button type="primary" icon={<SettingOutlined />} onClick={() => router.push("/gateway/config")}>
-						网关配置
+					<Button type="primary" icon={<SettingOutlined />} onClick={() => router.push("/gateway/config-manage")}>
+						配置管理
 					</Button>
 				</Space>
 			</div>
@@ -75,14 +75,18 @@ const GatewayOverview = () => {
 				<Col xs={24} lg={12}>
 					<Card title="快速操作" className="h-full">
 						<Space orientation="vertical" size="middle" style={{ width: "100%" }}>
-							<Button block onClick={() => router.push("/gateway/list")}>
-								查看网关列表
+							<Button block onClick={() => router.push("/gateway/data")}>
+								数据管理
 							</Button>
-							<Button block onClick={() => router.push("/gateway/config")}>
-								配置网关参数
+							<Button block onClick={() => router.push("/gateway/config-manage")}>
+								配置管理
 							</Button>
-							<Button block>查看监控数据</Button>
-							<Button block>导出配置</Button>
+							<Button block onClick={() => router.push("/gateway/load-balancing")}>
+								负载均衡
+							</Button>
+							<Button block onClick={() => router.push("/gateway/register")}>
+								服务注册
+							</Button>
 						</Space>
 					</Card>
 				</Col>

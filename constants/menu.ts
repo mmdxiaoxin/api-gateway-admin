@@ -4,8 +4,6 @@ import type { IconName } from "@/components/ui/IconComponent";
 export const MENU_CONFIG = {
 	HOME: "/",
 	GATEWAY: "/gateway",
-	GATEWAY_LIST: "/gateway/list",
-	GATEWAY_CONFIG: "/gateway/config",
 	GATEWAY_DATA: "/gateway/data",
 	GATEWAY_CONFIG_MANAGE: "/gateway/config-manage",
 	GATEWAY_LOAD_BALANCING: "/gateway/load-balancing",
@@ -19,8 +17,6 @@ export const MENU_CONFIG = {
 export const MENU_TITLE_MAP: Record<string, string> = {
 	[MENU_CONFIG.HOME]: "首页",
 	[MENU_CONFIG.GATEWAY]: "网关管理",
-	[MENU_CONFIG.GATEWAY_LIST]: "网关列表",
-	[MENU_CONFIG.GATEWAY_CONFIG]: "网关配置",
 	[MENU_CONFIG.GATEWAY_DATA]: "数据管理",
 	[MENU_CONFIG.GATEWAY_CONFIG_MANAGE]: "配置管理",
 	[MENU_CONFIG.GATEWAY_LOAD_BALANCING]: "负载均衡",
@@ -33,8 +29,6 @@ export const MENU_TITLE_MAP: Record<string, string> = {
 export const MENU_ICON_MAP: Record<string, IconName> = {
 	[MENU_CONFIG.HOME]: "HomeOutlined",
 	[MENU_CONFIG.GATEWAY]: "ApiOutlined",
-	[MENU_CONFIG.GATEWAY_LIST]: "ApiOutlined",
-	[MENU_CONFIG.GATEWAY_CONFIG]: "ApiOutlined",
 	[MENU_CONFIG.GATEWAY_DATA]: "DatabaseOutlined",
 	[MENU_CONFIG.GATEWAY_CONFIG_MANAGE]: "SettingOutlined",
 	[MENU_CONFIG.GATEWAY_LOAD_BALANCING]: "PartitionOutlined",
@@ -63,16 +57,6 @@ export const MENU_ITEMS_CONFIG: MenuItemConfig[] = [
 		icon: MENU_ICON_MAP[MENU_CONFIG.GATEWAY],
 		label: MENU_TITLE_MAP[MENU_CONFIG.GATEWAY],
 		children: [
-			{
-				key: MENU_CONFIG.GATEWAY_LIST,
-				icon: MENU_ICON_MAP[MENU_CONFIG.GATEWAY_LIST],
-				label: MENU_TITLE_MAP[MENU_CONFIG.GATEWAY_LIST],
-			},
-			{
-				key: MENU_CONFIG.GATEWAY_CONFIG,
-				icon: MENU_ICON_MAP[MENU_CONFIG.GATEWAY_CONFIG],
-				label: MENU_TITLE_MAP[MENU_CONFIG.GATEWAY_CONFIG],
-			},
 			{
 				key: MENU_CONFIG.GATEWAY_DATA,
 				icon: MENU_ICON_MAP[MENU_CONFIG.GATEWAY_DATA],
