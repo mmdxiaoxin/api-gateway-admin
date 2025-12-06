@@ -82,6 +82,7 @@ const Login = () => {
 			<Row className="flex flex-1 rounded-lg items-center justify-center">
 				{/* 左侧图片部分 - 只在非移动端显示 */}
 				<Col xs={0} sm={0} md={12} lg={12} xl={14} className="flex-1">
+				{/* eslint-disable-next-line @next/next/no-img-element */}
 					<img 
 						src="/login_left_sunny.svg" 
 						alt="login" 
@@ -103,6 +104,7 @@ const Login = () => {
 					>
 						{/* 移动端logo - 只在移动端显示 */}
 						<div className="flex flex-col items-center mb-6 md:hidden">
+							{/* eslint-disable-next-line @next/next/no-img-element */}
 							<img 
 								className="w-auto h-12 object-contain" 
 								src="/logo_sunny.svg" 
@@ -113,6 +115,7 @@ const Login = () => {
 
 						{/* 非移动端logo */}
 						<div className="hidden md:flex items-center justify-center mb-10">
+							{/* eslint-disable-next-line @next/next/no-img-element */}
 							<img
 								className={clsx(
 									"w-auto h-12 object-contain",
