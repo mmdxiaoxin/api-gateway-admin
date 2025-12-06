@@ -2,7 +2,7 @@
 
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
-import LayoutIndex from "@/components/layouts";
+import LayoutIndex from "@/components/layout";
 import { useAuthStore } from "@/store/authStore";
 import { Spin } from "antd";
 
