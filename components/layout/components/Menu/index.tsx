@@ -1,18 +1,19 @@
 "use client";
 
-import { Menu, MenuProps } from "antd";
+import { Menu, MenuProps, Spin } from "antd";
 import clsx from "clsx";
 import { usePathname, useRouter } from "next/navigation";
 import { useMemo, useState, useEffect } from "react";
-import { MENU_ITEMS_CONFIG } from "@/constants/menu";
+import type { MenuItemConfig } from "@/constants/menu";
+import { getMenuData } from "@/lib/api/menu";
 import IconComponent from "@/components/ui/IconComponent";
 import Logo from "./components/Logo";
 
 type MenuItem = Required<MenuProps>["items"][number];
 
 // 将菜单配置转换为 Ant Design Menu 组件需要的格式
-const getMenuItems = (): MenuItem[] => {
-	return MENU_ITEMS_CONFIG.map((item) => ({
+const convertMenuItems = (menuConfig: MenuItemConfig[]): MenuItem[] => {
+	return menuConfig.map((item) => ({
 		key: item.key,
 		icon: item.icon ? <IconComponent name={item.icon} /> : undefined,
 		label: item.label,
@@ -24,18 +25,40 @@ const getMenuItems = (): MenuItem[] => {
 	}));
 };
 
-// 获取菜单项
-const menuItems = getMenuItems();
-
 const LayoutMenu = () => {
 	const pathname = usePathname();
 	const router = useRouter();
+	const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
+	const [loading, setLoading] = useState(true);
+	
+	// 从后端获取菜单数据
+	useEffect(() => {
+		const fetchMenuData = async () => {
+			try {
+				setLoading(true);
+				const menuConfig = await getMenuData();
+				const items = convertMenuItems(menuConfig);
+				setMenuItems(items);
+			} catch (error) {
+				console.error("获取菜单数据失败:", error);
+				// 如果获取失败，可以设置空数组或显示错误提示
+				setMenuItems([]);
+			} finally {
+				setLoading(false);
+			}
+		};
+		
+		fetchMenuData();
+	}, []);
 	
 	// 使用 useMemo 计算 selectedKeys，避免在 useEffect 中设置状态
 	const selectedKeys = useMemo(() => [pathname], [pathname]);
 	
-	// 计算应该打开的父菜单 keys（根据当前路径）
-	const getOpenKeysByPath = (currentPath: string): string[] => {
+	// 使用 useMemo 计算期望的 openKeys，避免在 useEffect 中设置状态
+	const expectedOpenKeys = useMemo(() => {
+		// 计算应该打开的父菜单 keys（根据当前路径）
+		const currentPath = pathname;
+		
 		// 特殊处理首页
 		if (currentPath === "/") {
 			return [];
@@ -64,10 +87,7 @@ const LayoutMenu = () => {
 		}
 		
 		return [];
-	};
-	
-	// 使用 useMemo 计算期望的 openKeys，避免在 useEffect 中设置状态
-	const expectedOpenKeys = useMemo(() => getOpenKeysByPath(pathname), [pathname]);
+	}, [pathname, menuItems]);
 	
 	const [openKeys, setOpenKeys] = useState<string[]>(expectedOpenKeys);
 	
@@ -83,6 +103,21 @@ const LayoutMenu = () => {
 	const onOpenChange = (openKeys: string[]) => {
 		setOpenKeys(openKeys);
 	};
+
+	if (loading) {
+		return (
+			<div
+				className={clsx(
+					"menu",
+					"flex flex-col justify-between h-full",
+					"items-center justify-center"
+				)}
+			>
+				<Logo />
+				<Spin size="large" />
+			</div>
+		);
+	}
 
 	return (
 		<div
