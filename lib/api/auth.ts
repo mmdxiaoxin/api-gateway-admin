@@ -16,7 +16,7 @@ export interface LoginResponse {
  */
 export async function login(data: LoginRequest): Promise<LoginResponse> {
 	const response = await post<LoginResponse>("/api/auth/login", data);
-	if (response.code === 200) {
+	if (response.code === 0) {
 		return response.data;
 	}
 	throw new Error(response.msg || "登录失败");
@@ -27,7 +27,7 @@ export async function login(data: LoginRequest): Promise<LoginResponse> {
  */
 export async function logout(): Promise<void> {
 	const response = await post("/api/auth/logout");
-	if (response.code !== 200) {
+	if (response.code !== 0) {
 		throw new Error(response.msg || "退出登录失败");
 	}
 }

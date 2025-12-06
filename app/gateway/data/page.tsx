@@ -101,7 +101,7 @@ const GatewayDataManage = () => {
 				String(serverPage),
 				String(serverPageSize)
 			);
-			if (result.code === 200) {
+			if (result.code === 0) {
 				const pageData = result.data;
 				const data = Array.isArray(pageData?.list) ? pageData.list : [];
 				setServerData(data);
@@ -130,7 +130,7 @@ const GatewayDataManage = () => {
 				String(detailPageSize),
 				detailGatewayId || undefined
 			);
-			if (result.code === 200) {
+			if (result.code === 0) {
 				const pageData = result.data;
 				const data = Array.isArray(pageData?.list) ? pageData.list : [];
 				setDetailData(data);
@@ -155,7 +155,7 @@ const GatewayDataManage = () => {
 				distributionGroupId || undefined,
 				distributionGatewayId || undefined
 			);
-			if (result.code === 200) {
+			if (result.code === 0) {
 				const pageData = result.data;
 				const data = Array.isArray(pageData?.list) ? pageData.list : [];
 				setDistributionData(data);
@@ -180,7 +180,7 @@ const GatewayDataManage = () => {
 				systemId || undefined,
 				systemName || undefined
 			);
-			if (result.code === 200) {
+			if (result.code === 0) {
 				const pageData = result.data;
 				const data = Array.isArray(pageData?.list) ? pageData.list : [];
 				setSystemData(data);
@@ -205,7 +205,7 @@ const GatewayDataManage = () => {
 				interfaceSystemId || undefined,
 				interfaceId || undefined
 			);
-			if (result.code === 200) {
+			if (result.code === 0) {
 				const pageData = result.data;
 				const data = Array.isArray(pageData?.list) ? pageData.list : [];
 				setInterfaceData(data);
@@ -230,7 +230,7 @@ const GatewayDataManage = () => {
 				methodSystemId || undefined,
 				methodInterfaceId || undefined
 			);
-			if (result.code === 200) {
+			if (result.code === 0) {
 				const pageData = result.data;
 				const data = Array.isArray(pageData?.list) ? pageData.list : [];
 				setMethodData(data);

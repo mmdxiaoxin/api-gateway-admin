@@ -83,7 +83,7 @@ const GatewayConfigManage = () => {
 		setLoading(true);
 		try {
 			const result = await queryServerConfig();
-			if (result.code === 200) {
+			if (result.code === 0) {
 				setServerList(result.data || []);
 			} else {
 				message.error(result.msg || "查询失败");
@@ -100,7 +100,7 @@ const GatewayConfigManage = () => {
 		setLoading(true);
 		try {
 			const result = await queryServerDetailConfig();
-			if (result.code === 200) {
+			if (result.code === 0) {
 				setDetailList(result.data || []);
 			} else {
 				message.error(result.msg || "查询失败");
@@ -117,7 +117,7 @@ const GatewayConfigManage = () => {
 		setLoading(true);
 		try {
 			const result = await queryGatewayDistributionList();
-			if (result.code === 200) {
+			if (result.code === 0) {
 				setDistributionList(result.data || []);
 			} else {
 				message.error(result.msg || "查询失败");
@@ -134,7 +134,7 @@ const GatewayConfigManage = () => {
 		setLoading(true);
 		try {
 			const result = await queryApplicationSystemList();
-			if (result.code === 200) {
+			if (result.code === 0) {
 				setSystemList(result.data || []);
 			} else {
 				message.error(result.msg || "查询失败");
@@ -151,7 +151,7 @@ const GatewayConfigManage = () => {
 		setLoading(true);
 		try {
 			const result = await queryApplicationInterfaceList();
-			if (result.code === 200) {
+			if (result.code === 0) {
 				setInterfaceList(result.data || []);
 			} else {
 				message.error(result.msg || "查询失败");
@@ -168,7 +168,7 @@ const GatewayConfigManage = () => {
 		setLoading(true);
 		try {
 			const result = await queryApplicationInterfaceMethodList();
-			if (result.code === 200) {
+			if (result.code === 0) {
 				setMethodList(result.data || []);
 			} else {
 				message.error(result.msg || "查询失败");
@@ -185,7 +185,7 @@ const GatewayConfigManage = () => {
 		setLoading(true);
 		try {
 			const result = await queryApplicationSystemRichInfo(gatewayId, systemId);
-			if (result.code === 200) {
+			if (result.code === 0) {
 				setRichInfo(result.data);
 				setRichInfoModalVisible(true);
 			} else {
@@ -203,7 +203,7 @@ const GatewayConfigManage = () => {
 		setLoading(true);
 		try {
 			const result = await queryRedisConfig();
-			if (result.code === 200) {
+			if (result.code === 0) {
 				setRedisConfig(result.data || {});
 			} else {
 				message.error(result.msg || "查询失败");
@@ -230,7 +230,7 @@ const GatewayConfigManage = () => {
 				values.gatewayName,
 				values.gatewayAddress
 			);
-			if (result.code === 200) {
+			if (result.code === 0) {
 				message.success("注册成功");
 				setServerModalVisible(false);
 				form.resetFields();
@@ -259,7 +259,7 @@ const GatewayConfigManage = () => {
 				values.gatewayId,
 				values.systemId
 			);
-			if (result.code === 200 || result.code === 1001) {
+			if (result.code === 0 || result.code === 1001) {
 				message.success(result.msg || "配置成功");
 				setDistributionModalVisible(false);
 				distributionForm.resetFields();

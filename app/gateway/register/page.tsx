@@ -51,7 +51,7 @@ const RpcRegisterManage = () => {
 				values.systemType,
 				values.systemRegistry
 			);
-			if (result.code === 200 || result.code === 1001) {
+			if (result.code === 0 || result.code === 1001) {
 				message.success(result.msg || "注册成功");
 				applicationForm.resetFields();
 			} else {
@@ -79,7 +79,7 @@ const RpcRegisterManage = () => {
 				values.interfaceName,
 				values.interfaceVersion
 			);
-			if (result.code === 200 || result.code === 1001) {
+			if (result.code === 0 || result.code === 1001) {
 				message.success(result.msg || "注册成功");
 				interfaceForm.resetFields();
 			} else {
@@ -115,7 +115,7 @@ const RpcRegisterManage = () => {
 				values.httpCommandType,
 				values.auth
 			);
-			if (result.code === 200 || result.code === 1001) {
+			if (result.code === 0 || result.code === 1001) {
 				message.success(result.msg || "注册成功");
 				methodForm.resetFields();
 			} else {
@@ -133,7 +133,7 @@ const RpcRegisterManage = () => {
 		setLoading(true);
 		try {
 			const result = await registerEvent(values.systemId);
-			if (result.code === 200) {
+			if (result.code === 0) {
 				message.success("通知成功");
 				eventForm.resetFields();
 			} else {

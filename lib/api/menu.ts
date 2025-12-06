@@ -6,7 +6,7 @@ import type { MenuItemConfig } from "@/constants/menu";
  */
 export async function getMenuData(): Promise<MenuItemConfig[]> {
 	const response = await get<MenuItemConfig[]>("/api/menu");
-	if (response.code === 200) {
+	if (response.code === 0) {
 		return response.data;
 	}
 	throw new Error(response.msg || "获取菜单失败");
