@@ -21,7 +21,7 @@ export default function Home() {
 							title="总网关数"
 							value={12}
 							prefix={<ApiOutlined />}
-							valueStyle={{ color: "#3f8600" }}
+							styles={{ content: { color: "#3f8600" } }}
 						/>
 					</Card>
 				</Col>
@@ -31,7 +31,7 @@ export default function Home() {
 							title="运行中"
 							value={10}
 							prefix={<CheckCircleOutlined />}
-							valueStyle={{ color: "#3f8600" }}
+							styles={{ content: { color: "#3f8600" } }}
 						/>
 					</Card>
 				</Col>
@@ -41,7 +41,7 @@ export default function Home() {
 							title="待启动"
 							value={2}
 							prefix={<ClockCircleOutlined />}
-							valueStyle={{ color: "#faad14" }}
+							styles={{ content: { color: "#faad14" } }}
 						/>
 					</Card>
 				</Col>
@@ -51,7 +51,7 @@ export default function Home() {
 							title="已停止"
 							value={0}
 							prefix={<CloseCircleOutlined />}
-							valueStyle={{ color: "#cf1322" }}
+							styles={{ content: { color: "#cf1322" } }}
 						/>
 					</Card>
 				</Col>
