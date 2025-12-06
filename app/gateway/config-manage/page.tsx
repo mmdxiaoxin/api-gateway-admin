@@ -12,12 +12,14 @@ import {
 	Modal,
 	Form,
 	Input,
+	Popconfirm,
 } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import {
 	PlusOutlined,
 	ReloadOutlined,
 	LinkOutlined,
+	DeleteOutlined,
 } from "@ant-design/icons";
 import { Typography } from "antd";
 import {
@@ -31,6 +33,8 @@ import {
 	queryApplicationInterfaceMethodList,
 	queryApplicationSystemRichInfo,
 	queryRedisConfig,
+	deleteGatewayServerNode,
+	deleteGatewayDistribution,
 } from "@/lib/api/gateway";
 import type {
 	GatewayServerVO,
@@ -274,6 +278,43 @@ const GatewayConfigManage = () => {
 		}
 	};
 
+	// 删除网关服务节点
+	const handleDeleteServerNode = async (gatewayId: string, gatewayAddress: string) => {
+		setLoading(true);
+		try {
+			const result = await deleteGatewayServerNode(gatewayId, gatewayAddress);
+			if (result.code === 0) {
+				message.success("删除成功");
+				loadServerConfig();
+				loadDetailConfig();
+			} else {
+				message.error(result.msg || "删除失败");
+			}
+		} catch (error) {
+			message.error(error instanceof Error ? error.message : "删除失败");
+		} finally {
+			setLoading(false);
+		}
+	};
+
+	// 删除网关分配配置
+	const handleDeleteDistribution = async (groupId: string, gatewayId: string, systemId: string) => {
+		setLoading(true);
+		try {
+			const result = await deleteGatewayDistribution(groupId, gatewayId, systemId);
+			if (result.code === 0) {
+				message.success("删除成功");
+				loadDistributionConfig();
+			} else {
+				message.error(result.msg || "删除失败");
+			}
+		} catch (error) {
+			message.error(error instanceof Error ? error.message : "删除失败");
+		} finally {
+			setLoading(false);
+		}
+	};
+
 	useEffect(() => {
 		if (activeTab === "servers") {
 			loadServerConfig();
@@ -338,6 +379,23 @@ const GatewayConfigManage = () => {
 			dataIndex: "gatewayAddress",
 			key: "gatewayAddress",
 		},
+		{
+			title: "操作",
+			key: "action",
+			render: (_, record) => (
+				<Popconfirm
+					title="确定要删除这个网关节点吗？"
+					description="删除后需要重新生成Nginx配置，请确认。"
+					onConfirm={() => handleDeleteServerNode(record.gatewayId, record.gatewayAddress)}
+					okText="确定"
+					cancelText="取消"
+				>
+					<Button type="link" danger icon={<DeleteOutlined />} loading={loading}>
+						删除
+					</Button>
+				</Popconfirm>
+			),
+		},
 	];
 
 	// 网关分配列定义
@@ -361,13 +419,26 @@ const GatewayConfigManage = () => {
 			title: "操作",
 			key: "action",
 			render: (_, record) => (
-				<Button
-					type="link"
-					icon={<LinkOutlined />}
-					onClick={() => loadRichInfo(record.gatewayId, record.systemId)}
-				>
-					查看详情
-				</Button>
+				<Space>
+					<Button
+						type="link"
+						icon={<LinkOutlined />}
+						onClick={() => loadRichInfo(record.gatewayId, record.systemId)}
+					>
+						查看详情
+					</Button>
+					<Popconfirm
+						title="确定要删除这个分配配置吗？"
+						description="删除后将取消网关节点与应用系统的关联关系。"
+						onConfirm={() => handleDeleteDistribution(record.groupId, record.gatewayId, record.systemId)}
+						okText="确定"
+						cancelText="取消"
+					>
+						<Button type="link" danger icon={<DeleteOutlined />} loading={loading}>
+							删除
+						</Button>
+					</Popconfirm>
+				</Space>
 			),
 		},
 	];

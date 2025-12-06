@@ -1,4 +1,4 @@
-import { get, post, put, type ApiResponse , type PageData} from "../api";
+import { get, post, put, del, type ApiResponse , type PageData} from "../api";
 import type {
 	GatewayServerDataVO,
 	GatewayServerDetailDatalVO,
@@ -161,6 +161,27 @@ export async function queryApplicationSystemRichInfo(
 // 查询配置中心Redis配置信息
 export async function queryRedisConfig(): Promise<ApiResponse<RedisConfig>> {
 	return get<RedisConfig>("/api/v1/config/redis-config");
+}
+
+// 删除网关服务节点
+export async function deleteGatewayServerNode(
+	gatewayId: string,
+	gatewayAddress: string
+): Promise<ApiResponse<boolean>> {
+	return del<boolean>("/api/v1/config/gateway-servers", {
+		params: { gatewayId, gatewayAddress },
+	});
+}
+
+// 删除网关分配配置
+export async function deleteGatewayDistribution(
+	groupId: string,
+	gatewayId: string,
+	systemId: string
+): Promise<ApiResponse<boolean>> {
+	return del<boolean>("/api/v1/config/gateway-distributions", {
+		params: { groupId, gatewayId, systemId },
+	});
 }
 
 /**
