@@ -74,7 +74,7 @@ const GatewayOverview = () => {
 			<Row gutter={[16, 16]} className="mt-4">
 				<Col xs={24} lg={12}>
 					<Card title="快速操作" className="h-full">
-						<Space direction="vertical" size="middle" style={{ width: "100%" }}>
+						<Space orientation="vertical" size="middle" style={{ width: "100%" }}>
 							<Button block onClick={() => router.push("/gateway/list")}>
 								查看网关列表
 							</Button>
