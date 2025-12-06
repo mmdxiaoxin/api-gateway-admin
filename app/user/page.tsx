@@ -5,23 +5,15 @@ import type { ColumnsType } from "antd/es/table";
 import { PlusOutlined, EditOutlined, DeleteOutlined, SearchOutlined } from "@ant-design/icons";
 import { Typography } from "antd";
 import { useState } from "react";
+import type { UserListItem } from "@/types";
 
 const { Title } = Typography;
-
-interface UserItem {
-	key: string;
-	username: string;
-	email: string;
-	role: "admin" | "user" | "guest";
-	status: "active" | "inactive";
-	createTime: string;
-}
 
 const UserManagement = () => {
 	const [searchText, setSearchText] = useState("");
 
 	// 模拟数据
-	const dataSource: UserItem[] = [
+	const dataSource: UserListItem[] = [
 		{
 			key: "1",
 			username: "admin",
@@ -56,7 +48,7 @@ const UserManagement = () => {
 		},
 	];
 
-	const columns: ColumnsType<UserItem> = [
+	const columns: ColumnsType<UserListItem> = [
 		{
 			title: "用户名",
 			dataIndex: "username",

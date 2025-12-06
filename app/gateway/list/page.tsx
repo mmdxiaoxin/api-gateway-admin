@@ -9,17 +9,9 @@ import {
 	ReloadOutlined,
 } from "@ant-design/icons";
 import { Typography } from "antd";
+import type { GatewayItem } from "@/types";
 
 const { Title } = Typography;
-
-interface GatewayItem {
-	key: string;
-	name: string;
-	address: string;
-	status: "running" | "stopped" | "pending";
-	version: string;
-	createTime: string;
-}
 
 const GatewayList = () => {
 	// 模拟数据
