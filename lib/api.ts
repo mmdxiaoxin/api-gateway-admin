@@ -14,6 +14,14 @@ export interface ApiResponse<T = unknown> {
  */
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "";
 
+// 开发环境检查 API 地址配置
+if (typeof window !== "undefined" && !API_BASE_URL) {
+	console.warn(
+		"⚠️ NEXT_PUBLIC_API_BASE_URL 未设置！请求将发送到当前服务器。\n" +
+		"请在 .env.local 文件中设置 NEXT_PUBLIC_API_BASE_URL=你的后端地址"
+	);
+}
+
 /**
  * 获取认证 token
  */
