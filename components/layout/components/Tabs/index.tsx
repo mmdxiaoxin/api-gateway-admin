@@ -9,6 +9,8 @@ import { getMenuTitleByPath } from "@/constants";
 
 import type { TabItem } from "@/types";
 
+import "./index.scss";
+
 const LayoutTabs = () => {
 	const pathname = usePathname();
 	const router = useRouter();
