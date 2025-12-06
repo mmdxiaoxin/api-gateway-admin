@@ -1,20 +1,21 @@
-import { get, post, put, del, type ApiResponse , type PageData} from "../api";
 import type {
-	GatewayServerDataVO,
-	GatewayServerDetailDatalVO,
-	GatewayDistributionDataVO,
-	ApplicationSystemDataVO,
 	ApplicationInterfaceDataVO,
 	ApplicationInterfaceMethodDataVO,
-	GatewayServerVO,
-	GatewayServerDetailVO,
-	GatewayDistributionVO,
-	ApplicationSystemVO,
-	ApplicationInterfaceVO,
 	ApplicationInterfaceMethodVO,
+	ApplicationInterfaceVO,
+	ApplicationSystemDataVO,
 	ApplicationSystemRichInfo,
+	ApplicationSystemVO,
+	GatewayDistributionDataVO,
+	GatewayDistributionVO,
+	GatewayServerDataVO,
+	GatewayServerDetailDatalVO,
+	GatewayServerDetailVO,
+	GatewayServerVO,
 	RedisConfig,
 } from "@/types/gateway";
+import { del, get, post, put, type ApiResponse, type PageData } from "../api";
+import { PORT_GATEWAY_CENTER } from "./config";
 
 /**
  * 数据操作管理 API
@@ -26,7 +27,7 @@ export async function queryGatewayServer(
 	page: string,
 	limit: string
 ): Promise<ApiResponse<PageData<GatewayServerDataVO>>> {
-	return get<PageData<GatewayServerDataVO>>("/api/v1/gateway-servers", {
+	return get<PageData<GatewayServerDataVO>>(PORT_GATEWAY_CENTER + "/api/v1/gateway-servers", {
 		params: { groupId, page, limit },
 	});
 }
@@ -38,7 +39,7 @@ export async function queryGatewayServerDetail(
 	limit: string,
 	gatewayId?: string
 ): Promise<ApiResponse<PageData<GatewayServerDetailDatalVO>>> {
-	return get<PageData<GatewayServerDetailDatalVO>>("/api/v1/gateway-servers/details", {
+	return get<PageData<GatewayServerDetailDatalVO>>(PORT_GATEWAY_CENTER + "/api/v1/gateway-servers/details", {
 		params: { groupId, gatewayId, page, limit },
 	});
 }
@@ -50,7 +51,7 @@ export async function queryGatewayDistribution(
 	groupId?: string,
 	gatewayId?: string
 ): Promise<ApiResponse<PageData<GatewayDistributionDataVO>>> {
-	return get<PageData<GatewayDistributionDataVO>>("/api/v1/gateway-servers/distributions", {
+	return get<PageData<GatewayDistributionDataVO>>(PORT_GATEWAY_CENTER + "/api/v1/gateway-servers/distributions", {
 		params: { groupId, gatewayId, page, limit },
 	});
 }
@@ -62,7 +63,7 @@ export async function queryApplicationSystem(
 	systemId?: string,
 	systemName?: string
 ): Promise<ApiResponse<PageData<ApplicationSystemDataVO>>> {
-	return get<PageData<ApplicationSystemDataVO>>("/api/v1/gateway-servers/application-systems", {
+	return get<PageData<ApplicationSystemDataVO>>(PORT_GATEWAY_CENTER + "/api/v1/gateway-servers/application-systems", {
 		params: { systemId, systemName, page, limit },
 	});
 }
@@ -74,7 +75,7 @@ export async function queryApplicationInterface(
 	systemId?: string,
 	interfaceId?: string
 ): Promise<ApiResponse<PageData<ApplicationInterfaceDataVO>>> {
-	return get<PageData<ApplicationInterfaceDataVO>>("/api/v1/gateway-servers/application-interfaces", {
+	return get<PageData<ApplicationInterfaceDataVO>>(PORT_GATEWAY_CENTER + "/api/v1/gateway-servers/application-interfaces", {
 		params: { systemId, interfaceId, page, limit },
 	});
 }
@@ -86,7 +87,7 @@ export async function queryApplicationInterfaceMethod(
 	systemId?: string,
 	interfaceId?: string
 ): Promise<ApiResponse<PageData<ApplicationInterfaceMethodDataVO>>> {
-	return get<PageData<ApplicationInterfaceMethodDataVO>>("/api/v1/gateway-servers/application-interfaces/methods", {
+	return get<PageData<ApplicationInterfaceMethodDataVO>>(PORT_GATEWAY_CENTER + "/api/v1/gateway-servers/application-interfaces/methods", {
 		params: { systemId, interfaceId, page, limit },
 	});
 }
@@ -97,17 +98,17 @@ export async function queryApplicationInterfaceMethod(
 
 // 查询网关服务配置项
 export async function queryServerConfig(): Promise<ApiResponse<GatewayServerVO[]>> {
-	return get<GatewayServerVO[]>("/api/v1/config/gateway-servers");
+	return get<GatewayServerVO[]>(PORT_GATEWAY_CENTER + "/api/v1/config/gateway-servers");
 }
 
 // 查询网关算力节点配置项
 export async function queryServerDetailConfig(): Promise<ApiResponse<GatewayServerDetailVO[]>> {
-	return get<GatewayServerDetailVO[]>("/api/v1/config/gateway-server-details");
+	return get<GatewayServerDetailVO[]>(PORT_GATEWAY_CENTER + "/api/v1/config/gateway-server-details");
 }
 
 // 查询网关分配配置项
 export async function queryGatewayDistributionList(): Promise<ApiResponse<GatewayDistributionVO[]>> {
-	return get<GatewayDistributionVO[]>("/api/v1/config/gateway-distributions");
+	return get<GatewayDistributionVO[]>(PORT_GATEWAY_CENTER + "/api/v1/config/gateway-distributions");
 }
 
 // 注册网关服务节点
@@ -117,7 +118,7 @@ export async function registerGatewayServerNode(
 	gatewayName: string,
 	gatewayAddress: string
 ): Promise<ApiResponse<boolean>> {
-	return post<boolean>("/api/v1/config/gateway-servers", null, {
+	return post<boolean>(PORT_GATEWAY_CENTER + "/api/v1/config/gateway-servers", null, {
 		params: { groupId, gatewayId, gatewayName, gatewayAddress },
 	});
 }
@@ -128,24 +129,24 @@ export async function distributionGatewayServerNode(
 	gatewayId: string,
 	systemId: string
 ): Promise<ApiResponse<boolean>> {
-	return post<boolean>("/api/v1/config/gateway-distributions", null, {
+	return post<boolean>(PORT_GATEWAY_CENTER + "/api/v1/config/gateway-distributions", null, {
 		params: { groupId, gatewayId, systemId },
 	});
 }
 
 // 查询应用服务配置项
 export async function queryApplicationSystemList(): Promise<ApiResponse<ApplicationSystemVO[]>> {
-	return get<ApplicationSystemVO[]>("/api/v1/config/application-systems");
+	return get<ApplicationSystemVO[]>(PORT_GATEWAY_CENTER + "/api/v1/config/application-systems");
 }
 
 // 查询应用接口配置项
 export async function queryApplicationInterfaceList(): Promise<ApiResponse<ApplicationInterfaceVO[]>> {
-	return get<ApplicationInterfaceVO[]>("/api/v1/config/application-interfaces");
+	return get<ApplicationInterfaceVO[]>(PORT_GATEWAY_CENTER + "/api/v1/config/application-interfaces");
 }
 
 // 查询应用接口方法配置项
 export async function queryApplicationInterfaceMethodList(): Promise<ApiResponse<ApplicationInterfaceMethodVO[]>> {
-	return get<ApplicationInterfaceMethodVO[]>("/api/v1/config/application-interface-methods");
+	return get<ApplicationInterfaceMethodVO[]>(PORT_GATEWAY_CENTER + "/api/v1/config/application-interface-methods");
 }
 
 // 查询分配到网关下的待注册系统信息
@@ -153,14 +154,14 @@ export async function queryApplicationSystemRichInfo(
 	gatewayId: string,
 	systemId: string
 ): Promise<ApiResponse<ApplicationSystemRichInfo>> {
-	return get<ApplicationSystemRichInfo>("/api/v1/config/application-systems/rich-info", {
+	return get<ApplicationSystemRichInfo>(PORT_GATEWAY_CENTER + "/api/v1/config/application-systems/rich-info", {
 		params: { gatewayId, systemId },
 	});
 }
 
 // 查询配置中心Redis配置信息
 export async function queryRedisConfig(): Promise<ApiResponse<RedisConfig>> {
-	return get<RedisConfig>("/api/v1/config/redis-config");
+	return get<RedisConfig>(PORT_GATEWAY_CENTER + "/api/v1/config/redis-config");
 }
 
 // 删除网关服务节点
@@ -168,7 +169,7 @@ export async function deleteGatewayServerNode(
 	gatewayId: string,
 	gatewayAddress: string
 ): Promise<ApiResponse<boolean>> {
-	return del<boolean>("/api/v1/config/gateway-servers", {
+	return del<boolean>(PORT_GATEWAY_CENTER + "/api/v1/config/gateway-servers", {
 		params: { gatewayId, gatewayAddress },
 	});
 }
@@ -179,7 +180,7 @@ export async function deleteGatewayDistribution(
 	gatewayId: string,
 	systemId: string
 ): Promise<ApiResponse<boolean>> {
-	return del<boolean>("/api/v1/config/gateway-distributions", {
+	return del<boolean>(PORT_GATEWAY_CENTER + "/api/v1/config/gateway-distributions", {
 		params: { groupId, gatewayId, systemId },
 	});
 }
@@ -190,7 +191,7 @@ export async function deleteGatewayDistribution(
 
 // 复制Nginx配置文件
 export async function copyNginxConfig(): Promise<void> {
-	await post("/api/v1/load-balancing/nginx-config/copy");
+	await post(PORT_GATEWAY_CENTER + "/api/v1/load-balancing/nginx-config/copy");
 }
 
 // 更新Nginx配置
@@ -201,7 +202,7 @@ export async function updateNginxConfig(config: {
 }): Promise<ApiResponse<boolean>> {
 	// 暂时不传递参数，因为后端接口不接受参数
 	// TODO: 需要后端修改接口接受 @RequestBody NginxConfig 参数
-	return put<boolean>("/api/v1/load-balancing/nginx-config", config);
+	return put<boolean>(PORT_GATEWAY_CENTER + "/api/v1/load-balancing/nginx-config", config);
 }
 
 /**
@@ -215,7 +216,7 @@ export async function registerApplication(
 	systemType: string,
 	systemRegistry: string
 ): Promise<ApiResponse<boolean>> {
-	return post<boolean>("/api/v1/register/applications", null, {
+	return post<boolean>(PORT_GATEWAY_CENTER + "/api/v1/register/applications", null, {
 		params: { systemId, systemName, systemType, systemRegistry },
 	});
 }
@@ -227,7 +228,7 @@ export async function registerApplicationInterface(
 	interfaceName: string,
 	interfaceVersion: string
 ): Promise<ApiResponse<boolean>> {
-	return post<boolean>("/api/v1/register/application-interfaces", null, {
+	return post<boolean>(PORT_GATEWAY_CENTER + "/api/v1/register/application-interfaces", null, {
 		params: { systemId, interfaceId, interfaceName, interfaceVersion },
 	});
 }
@@ -243,7 +244,7 @@ export async function registerApplicationInterfaceMethod(
 	httpCommandType: string,
 	auth: number
 ): Promise<ApiResponse<boolean>> {
-	return post<boolean>("/api/v1/register/application-interface-methods", null, {
+	return post<boolean>(PORT_GATEWAY_CENTER + "/api/v1/register/application-interface-methods", null, {
 		params: {
 			systemId,
 			interfaceId,
@@ -259,7 +260,7 @@ export async function registerApplicationInterfaceMethod(
 
 // 应用信息注册完成通知
 export async function registerEvent(systemId: string): Promise<ApiResponse<boolean>> {
-	return post<boolean>("/api/v1/register/events", null, {
+	return post<boolean>(PORT_GATEWAY_CENTER + "/api/v1/register/events", null, {
 		params: { systemId },
 	});
 }
