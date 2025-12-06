@@ -1,47 +1,59 @@
 "use client";
 
-import { HomeOutlined, ApiOutlined, SettingOutlined, UserOutlined } from "@ant-design/icons";
 import { Menu, MenuProps } from "antd";
 import clsx from "clsx";
 import { usePathname, useRouter } from "next/navigation";
 import { useMemo, useState, useEffect } from "react";
+import { MENU_TITLE_MAP, MENU_ICON_MAP, MENU_CONFIG } from "@/constants/menu";
+import IconComponent from "@/components/ui/IconComponent";
 import Logo from "./components/Logo";
 
 type MenuItem = Required<MenuProps>["items"][number];
 
-// 菜单数据
-const menuItems: MenuItem[] = [
+// 菜单数据配置（使用文本配置图标）
+const menuConfig = [
 	{
-		key: "/",
-		icon: <HomeOutlined />,
-		label: "首页",
+		key: MENU_CONFIG.HOME,
+		icon: MENU_ICON_MAP[MENU_CONFIG.HOME],
+		label: MENU_TITLE_MAP[MENU_CONFIG.HOME],
 	},
 	{
-		key: "/gateway",
-		icon: <ApiOutlined />,
-		label: "网关管理",
+		key: MENU_CONFIG.GATEWAY,
+		icon: MENU_ICON_MAP[MENU_CONFIG.GATEWAY],
+		label: MENU_TITLE_MAP[MENU_CONFIG.GATEWAY],
 		children: [
 			{
-				key: "/gateway/list",
-				label: "网关列表",
+				key: MENU_CONFIG.GATEWAY_LIST,
+				label: MENU_TITLE_MAP[MENU_CONFIG.GATEWAY_LIST],
 			},
 			{
-				key: "/gateway/config",
-				label: "网关配置",
+				key: MENU_CONFIG.GATEWAY_CONFIG,
+				label: MENU_TITLE_MAP[MENU_CONFIG.GATEWAY_CONFIG],
 			},
 		],
 	},
 	{
-		key: "/user",
-		icon: <UserOutlined />,
-		label: "用户管理",
+		key: MENU_CONFIG.USER,
+		icon: MENU_ICON_MAP[MENU_CONFIG.USER],
+		label: MENU_TITLE_MAP[MENU_CONFIG.USER],
 	},
 	{
-		key: "/settings",
-		icon: <SettingOutlined />,
-		label: "系统设置",
+		key: MENU_CONFIG.SETTINGS,
+		icon: MENU_ICON_MAP[MENU_CONFIG.SETTINGS],
+		label: MENU_TITLE_MAP[MENU_CONFIG.SETTINGS],
 	},
 ];
+
+// 将配置转换为 Menu 组件需要的格式
+const menuItems: MenuItem[] = menuConfig.map((item) => ({
+	key: item.key,
+	icon: item.icon ? <IconComponent name={item.icon} /> : undefined,
+	label: item.label,
+	children: item.children?.map((child) => ({
+		key: child.key,
+		label: child.label,
+	})),
+}));
 
 const LayoutMenu = () => {
 	const pathname = usePathname();
