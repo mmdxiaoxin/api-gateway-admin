@@ -16,7 +16,7 @@
 
 ```json
 {
-  "code": 200,
+  "code": 0,
   "msg": "获取菜单成功",
   "data": [
     {
@@ -58,7 +58,7 @@
 
 ```json
 {
-  "code": 200,
+  "code": 0,
   "msg": "登录成功",
   "data": {
     "token": "token_admin_1234567890",
@@ -86,7 +86,7 @@
 
 ```json
 {
-  "code": 200,
+  "code": 0,
   "msg": "退出登录成功",
   "data": null
 }

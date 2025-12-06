@@ -12,7 +12,7 @@ export async function POST() {
 		cookieStore.delete("auth-token");
 
 		return NextResponse.json({
-			code: 200,
+			code: 0,
 			msg: "退出登录成功",
 			data: null,
 		});

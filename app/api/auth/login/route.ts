@@ -64,7 +64,7 @@ export async function POST(request: NextRequest) {
 
 		// 返回用户信息和 token
 		return NextResponse.json({
-			code: 200,
+			code: 0,
 			msg: "登录成功",
 			data: {
 				token,

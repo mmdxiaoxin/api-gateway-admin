@@ -9,7 +9,7 @@ export async function GET() {
 	try {
 		// 返回菜单配置数据
 		return NextResponse.json({
-			code: 200,
+			code: 0,
 			msg: "获取菜单成功",
 			data: MENU_ITEMS_CONFIG,
 		});
