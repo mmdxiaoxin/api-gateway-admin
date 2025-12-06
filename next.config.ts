@@ -17,6 +17,29 @@ const nextConfig: NextConfig = {
     optimizePackageImports: ['antd', '@ant-design/icons'],
   },
   
+  // 路径重写配置（用于开发模式代理）
+  // 生产环境建议使用 Nginx 代理，性能更好
+  async rewrites() {
+    // 获取后端服务地址（从环境变量或使用默认值）
+    const javaBackendUrl = process.env.BACKEND_API_URL || process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8080';
+    
+    return [
+      // /api/center/* -> Java 后端 (localhost:8080)
+      // 例如: /api/center/api/v1/xxx -> http://localhost:8080/api/v1/xxx
+      {
+        source: '/api/center/:path*',
+        destination: `${javaBackendUrl}/:path*`,
+      },
+      // /api/admin/api/* -> Next.js 自己的 API
+      // 例如: /api/admin/api/menu -> /api/menu
+      // 例如: /api/admin/api/auth/login -> /api/auth/login
+      {
+        source: '/api/admin/api/:path*',
+        destination: '/api/:path*',
+      },
+    ];
+  },
+  
   // 输出配置
   // standalone 模式：生成独立的部署包，只包含运行所需的最小依赖
   // 主要用于 Docker 部署，减少部署时需要复制的文件
