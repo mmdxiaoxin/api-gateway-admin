@@ -76,23 +76,17 @@ const Login = () => {
 		<div
 			className={clsx(
 				"relative flex h-screen bg-cover bg-center bg-no-repeat",
-				"bg-gradient-to-br from-blue-50 via-white to-indigo-50"
+				"bg-[url('/login_bg.svg')]"
 			)}
 		>
 			<Row className="flex flex-1 rounded-lg items-center justify-center">
 				{/* 左侧图片部分 - 只在非移动端显示 */}
-				<Col xs={0} sm={0} md={12} lg={12} xl={14} className="flex-1 flex items-center justify-center">
-					<div className="w-full h-full flex items-center justify-center p-8">
-						<div className="text-center space-y-4">
-							<div className="flex items-center justify-center mb-8">
-								<div className="w-16 h-16 bg-blue-500 rounded-lg flex items-center justify-center text-white text-2xl font-bold">
-									网
-								</div>
-							</div>
-							<h1 className="text-4xl font-bold text-gray-800 mb-2">网关管理后台</h1>
-							<p className="text-gray-600 text-lg">统一管理您的 API 网关服务</p>
-						</div>
-					</div>
+				<Col xs={0} sm={0} md={12} lg={12} xl={14} className="flex-1">
+					<img 
+						src="/login_left_sunny.svg" 
+						alt="login" 
+						className="object-cover object-center w-full h-full" 
+					/>
 				</Col>
 
 				{/* 右侧登录表单 */}
@@ -109,24 +103,26 @@ const Login = () => {
 					>
 						{/* 移动端logo - 只在移动端显示 */}
 						<div className="flex flex-col items-center mb-6 md:hidden">
-							<div className="w-12 h-12 bg-blue-500 rounded-lg flex items-center justify-center text-white text-xl font-bold">
-								网
-							</div>
+							<img 
+								className="w-auto h-12 object-contain" 
+								src="/logo_sunny.svg" 
+								alt="logo" 
+							/>
 							<span className="font-bold text-2xl mt-2">网关管理后台</span>
 						</div>
 
 						{/* 非移动端logo */}
 						<div className="hidden md:flex items-center justify-center mb-10">
-							<div
+							<img
 								className={clsx(
-									"w-12 h-12 bg-blue-500 rounded-lg flex items-center justify-center text-white font-bold",
-									"lg:w-14 lg:h-14 lg:text-xl",
-									"xl:w-16 xl:h-16 xl:text-2xl",
-									"2xl:w-16 2xl:h-16 2xl:text-2xl"
+									"w-auto h-12 object-contain",
+									"lg:h-14",
+									"xl:h-16",
+									"2xl:h-16"
 								)}
-							>
-								网
-							</div>
+								src="/logo_sunny.svg"
+								alt="logo"
+							/>
 							<span
 								className={clsx(
 									"font-bold whitespace-nowrap pl-6 text-3xl",
