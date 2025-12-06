@@ -53,10 +53,12 @@ export const MENU_ITEMS_CONFIG: MenuItemConfig[] = [
 		children: [
 			{
 				key: MENU_CONFIG.GATEWAY_LIST,
+				icon: MENU_ICON_MAP[MENU_CONFIG.GATEWAY_LIST],
 				label: MENU_TITLE_MAP[MENU_CONFIG.GATEWAY_LIST],
 			},
 			{
 				key: MENU_CONFIG.GATEWAY_CONFIG,
+				icon: MENU_ICON_MAP[MENU_CONFIG.GATEWAY_CONFIG],
 				label: MENU_TITLE_MAP[MENU_CONFIG.GATEWAY_CONFIG],
 			},
 		],

@@ -18,6 +18,7 @@ const getMenuItems = (): MenuItem[] => {
 		label: item.label,
 		children: item.children?.map((child) => ({
 			key: child.key,
+			icon: child.icon ? <IconComponent name={child.icon} /> : undefined,
 			label: child.label,
 		})),
 	}));
