@@ -4,7 +4,7 @@ import { HomeOutlined, ApiOutlined, SettingOutlined, UserOutlined } from "@ant-d
 import { Menu, MenuProps } from "antd";
 import clsx from "clsx";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useMemo, useState } from "react";
 import Logo from "./components/Logo";
 
 type MenuItem = Required<MenuProps>["items"][number];
@@ -46,19 +46,22 @@ const menuItems: MenuItem[] = [
 const LayoutMenu = () => {
 	const pathname = usePathname();
 	const router = useRouter();
-	const [selectedKeys, setSelectedKeys] = useState<string[]>([pathname]);
-	const [openKeys, setOpenKeys] = useState<string[]>([]);
-
-	useEffect(() => {
-		setSelectedKeys([pathname]);
-		// 根据当前路径设置展开的菜单
+	
+	// 使用 useMemo 计算 selectedKeys，避免在 useEffect 中设置状态
+	const selectedKeys = useMemo(() => [pathname], [pathname]);
+	
+	// 计算初始的 openKeys（根据当前路径）
+	const initialOpenKeys = useMemo(() => {
 		const parentPath = menuItems.find((item) =>
 			pathname.startsWith(item?.key as string)
 		)?.key as string;
 		if (parentPath && parentPath !== pathname) {
-			setOpenKeys([parentPath]);
+			return [parentPath];
 		}
+		return [];
 	}, [pathname]);
+	
+	const [openKeys, setOpenKeys] = useState<string[]>(initialOpenKeys);
 
 	const clickMenu: MenuProps["onClick"] = ({ key }) => {
 		router.push(key);
