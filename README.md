@@ -23,13 +23,15 @@ cp env.example .env.local
 2. 编辑 `.env.local` 文件，设置你的 Java 后端服务地址：
 
 ```env
-NEXT_PUBLIC_API_BASE_URL=http://localhost:8080
+BACKEND_API_URL=http://localhost:8080
 ```
 
 **注意：**
 
-- 将 `http://localhost:8080` 替换为你的实际后端服务地址
-- 如果不配置此环境变量，API 请求会发送到 Next.js 服务器，导致 404 错误
+- 将 `http://localhost:8080` 替换为你的实际 Java 后端服务地址
+- `BACKEND_API_URL` 用于 Next.js 服务器端代理转发请求到 Java 后端
+- 前端请求会先发送到 Next.js 服务器（`/api/v1/*`），然后由 Next.js 代理转发到 Java 后端
+- 这样可以避免 CORS 问题，并统一管理 API 请求
 - 修改环境变量后需要重启开发服务器
 
 ### 启动开发服务器

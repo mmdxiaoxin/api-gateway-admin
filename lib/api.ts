@@ -11,16 +11,9 @@ export interface ApiResponse<T = unknown> {
 
 /**
  * API 客户端配置
+ * 使用 Next.js 代理层，所有请求都发送到 Next.js 服务器，由 Next.js 转发到 Java 后端
  */
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "";
-
-// 开发环境检查 API 地址配置
-if (typeof window !== "undefined" && !API_BASE_URL) {
-	console.warn(
-		"⚠️ NEXT_PUBLIC_API_BASE_URL 未设置！请求将发送到当前服务器。\n" +
-		"请在 .env.local 文件中设置 NEXT_PUBLIC_API_BASE_URL=你的后端地址"
-	);
-}
+const API_BASE_URL = ""; // 空字符串表示使用相对路径，请求会发送到 Next.js 服务器
 
 /**
  * 获取认证 token
